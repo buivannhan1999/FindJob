@@ -1,0 +1,77 @@
+﻿
+
+@model PagedList.IPagedList<FindJob.Models.EF.Candidate>
+@using PagedList.Mvc
+@{
+    ViewBag.Title = "Tìm kiếm ứng viên";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    var jodFeature = ViewBag.JobFeature as List<FindJob.Models.EF.Post>;
+}
+
+
+<section id="jobs" style="margin-top: 90px">
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-8">
+                <article>
+                    <h2>Kết quả tìm kiếm => @ViewBag.keyword</h2>
+
+                    <div class="jobs">
+
+                        @foreach (var item in Model)
+                        {
+                            <!-- Job offer 1 -->
+                            <a href="/User/Profile_Candidate/@item.ID">
+                                <div class="featured"></div>
+                                <img src="~/Assets/images/candidate/@item.Image" height="60px" alt="" class="img-circle">
+                                <div class="title">
+                                    <h5>@item.Fullname</h5>
+                                    <p>@item.MainSkill</p>
+                                </div>
+                                <div class="data">
+                                    <span class="city"><i class="fa fa-birthday-cake" style="color: #14b1bb;"></i>@item.Birthday.Value.ToString("dd/MM/yyyy")</span>
+                                    <span class="type full-time"><i class="fa fa-user" style="color: #14b1bb;"></i>@(item.Sex == true ? "Nam" : "Nữ")</span>
+                                    <span class="sallary"><i class="fa fa-calendar" style="color: #14b1bb;"></i>@item.Experience năm kinh nghiệm</span>
+                                </div>
+                            </a>
+                        }
+
+                    </div>
+                    @Html.PagedListPager(Model, page => Url.Action("SearchCandidate", new { MainSkill = ViewBag.MainSkill, Experience = ViewBag.Experience, page, pageSize = Model.PageSize }))
+
+                </article>
+            </div>
+            <div class="col-sm-4">
+                <h2>Việc làm nổi bật</h2>
+                @foreach (var item in jodFeature)
+                {
+                    var url = "/Post/Detail/" + item.ID;
+                    <!-- Job offer 1 -->
+                    <a href="@url">
+                        <div class="featured-job">
+                            <div class="col-sm-3">
+                                <img src="~/Assets/images/employer/@item.Employer.Image" height="60px" alt="" class="img-circle">
+                            </div>
+                            <div class="col-sm-9 title">
+                                <h5>@item.Title</h5>
+                                <p>@item.Career.CareerName</p>
+                            </div>
+                            <div class="col-sm-12 data">
+                                <span class="city"><i class="fa fa-map-marker"></i>@item.Location</span>
+                                <span class="type full-time"><i class="fa fa-clock-o"></i>@item.Form</span>
+                                <span class="sallary"><i class="fa fa-dollar"></i>@item.Salary.Value.ToString("N0") đ</span>
+                            </div>
+                            <div class="col-sm-12 description" style="height: 140px; overflow: hidden">
+                                @Html.Raw(item.Descriptions);
+                            </div>
+                        </div>
+                    </a>
+                }
+
+            </div>
+        </div>
+    </div>
+</section>
+
+
+

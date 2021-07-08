@@ -1,0 +1,93 @@
+﻿
+@{
+    ViewBag.Title = "Đăng ký tài khoản";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="container">
+    <div id="signupbox" style="margin-top:50px" class="mainbox col-md-6 col-md-offset-3 col-sm-8 col-sm-offset-2">
+        <div class="panel panel-info">
+            <div class="panel-heading">
+                <div class="panel-title">Đăng ký tài khoản</div>
+                <div style="float:right; font-size: 85%; position: relative; top:-10px"><a id="signinlink" href="/User/Login">Đăng nhập</a></div>
+            </div>
+            <div class="panel-body">
+                @using (Html.BeginForm("FormRegister", "User", FormMethod.Post, new { id = "signupform", @class = "form-horizontal" }))
+                {
+                    <div class="form-group">
+                        <label for="email" class="col-md-3 control-label">Tài khoản</label>
+                        <div class="col-md-9">
+                            <input type="text" class="form-control" name="Account" placeholder="Nhập tài khoản" required>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="password" class="col-md-3 control-label">Mật khẩu</label>
+                        <div class="col-md-9">
+                            <input type="password" class="form-control" name="Password" placeholder="Password" required>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="firstname" class="col-md-3 control-label">Họ và tên</label>
+                        <div class="col-md-9">
+                            <input type="text" class="form-control" name="Fullname" placeholder="Nhập họ và tên" required>
+                        </div>
+                    </div>
+
+
+                    <div class="form-group">
+                        <label for="icode" class="col-md-3 control-label"></label>
+                        <div class="col-md-4">
+                            <input type="radio" name="Type" value="1" checked> Ứng viên
+                        </div>
+                        <div class="col-md-4">
+                            <input type="radio" name="Type" value="2"> Nhà tuyển dụng
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <!-- Button -->
+                        <div class="col-md-12">
+                            <div class="col-sm-3"></div>
+                            <div class="col-sm-6">
+                                <button type="submit" id="btn-login" class="btn btn-lg btn-info">Đăng ký</button>
+                            </div>
+                            <div class="col-sm-3"></div>
+                        </div>
+                    </div>
+                }
+            </div>
+        </div>
+
+
+
+
+    </div>
+</div>
+
+
+
+@section jsSection{
+
+    <script>
+
+        $(document).ready(function () {
+
+            //Khi bàn phím được nhấn và thả ra thì sẽ chạy phương thức này
+            $("#signupform").validate({
+                rules: {
+                    Fullname: "required",
+                    Account: "required",
+                    Password: "required"
+                },
+                messages: {
+                    Fullname: "Vui lòng nhập họ và tên",
+                    Account: "Vui lòng nhập tài khoản đăng nhập",
+                    Password: "Vui lòng nhập mật khẩu"
+                }
+            });
+        });
+
+    </script>
+
+}
+

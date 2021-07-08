@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="2dcde2297d474432a18aa85d27442c03" Name="Diagram1">
+        <EntityTypeShape EntityType="FindJobModel.Candidate" Width="1.5" PointX="3" PointY="9.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="FindJobModel.Career" Width="1.5" PointX="3" PointY="21.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="FindJobModel.Education" Width="1.5" PointX="5.25" PointY="7.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="FindJobModel.Employer" Width="1.5" PointX="3" PointY="16.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="FindJobModel.Evaluate" Width="1.5" PointX="8.25" PointY="13.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="FindJobModel.Experience" Width="1.5" PointX="5.25" PointY="14.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="FindJobModel.Join" Width="1.5" PointX="8.25" PointY="9.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="FindJobModel.Post" Width="1.5" PointX="5.25" PointY="18.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="FindJobModel.Save" Width="1.5" PointX="5.25" PointY="10.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="FindJobModel.Skill" Width="1.5" PointX="5.25" PointY="24.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="FindJobModel.sysdiagram" Width="1.5" PointX="0.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="FindJobModel.User" Width="1.5" PointX="0.75" PointY="12.625" IsExpanded="true" />
+        <AssociationConnector Association="FindJobModel.FK_Candidate_User_ID" ManuallyRouted="false" />
+        <AssociationConnector Association="FindJobModel.FK_Education_Candidate" ManuallyRouted="false" />
+        <AssociationConnector Association="FindJobModel.FK_Evaluate_Candidate" ManuallyRouted="false" />
+        <AssociationConnector Association="FindJobModel.FK_Experience_Candidate" ManuallyRouted="false" />
+        <AssociationConnector Association="FindJobModel.FK_Join_Candidate" ManuallyRouted="false" />
+        <AssociationConnector Association="FindJobModel.FK_Save_Candidate" ManuallyRouted="false" />
+        <AssociationConnector Association="FindJobModel.FK_Skill_Candidate" ManuallyRouted="false" />
+        <AssociationConnector Association="FindJobModel.FK_Post_Career" ManuallyRouted="false" />
+        <AssociationConnector Association="FindJobModel.FK_Employer_User_ID" ManuallyRouted="false" />
+        <AssociationConnector Association="FindJobModel.FK_Evaluate_Employer" ManuallyRouted="false" />
+        <AssociationConnector Association="FindJobModel.FK_Post_Employer" ManuallyRouted="false" />
+        <AssociationConnector Association="FindJobModel.FK_Save_Employer" ManuallyRouted="false" />
+        <AssociationConnector Association="FindJobModel.FK_Join_Post" ManuallyRouted="false" />
+        <AssociationConnector Association="FindJobModel.FK_Save_Post" ManuallyRouted="false" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

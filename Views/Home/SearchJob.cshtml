@@ -1,0 +1,74 @@
+﻿
+
+@model PagedList.IPagedList<FindJob.Models.EF.Post>
+@using PagedList.Mvc
+@{
+    ViewBag.Title = "Tìm kiếm việc làm";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    var jodFeature = ViewBag.JobFeature as List<FindJob.Models.EF.Post>;
+}
+
+
+<section id="jobs" style="margin-top: 90px">
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-8">
+                <h2>Kết quả tìm kiếm => @ViewBag.keyword</h2>
+
+                <div class="jobs">
+                    @foreach (var item in Model)
+                    {
+                        var url = "/Post/Detail/" + item.ID;
+                        <!-- Job offer 1 -->
+                        <a href="@url">
+                            <div class="featured"></div>
+                            <img src="~/Assets/images/employer/@item.Employer.Image" height="60px" alt="" class="img-circle">
+                            <div class="col-sm-10 title">
+                                <h5>@item.Title</h5>
+                                <p>@item.Career.CareerName</p>
+                            </div>
+                            <div class="col-sm-12 data">
+                                <span class="col-sm-6"><i class="fa fa-map-marker" style="color: #14b1bb;"></i>@item.Location</span>
+                                <span class="col-sm-3"><i class="fa fa-clock-o" style="color: #14b1bb;"></i>@item.Form</span>
+                                <span class="col-sm-3"><i class="fa fa-dollar" style="color: #14b1bb;"></i>@item.Salary.Value.ToString("N0") đ</span>
+                            </div>
+                        </a>
+                    }
+
+                </div>
+
+                @Html.PagedListPager(Model, page => Url.Action("SearchJob", new {Career_ID = ViewBag.Career_ID, Experience = ViewBag.Experience, page, pageSize = Model.PageSize }))
+
+            </div>
+            <div class="col-sm-4">
+                <h2>Việc làm nổi bật</h2>
+                @foreach (var item in jodFeature)
+                {
+                    var url = "/Post/Detail/" + item.ID;
+                    <!-- Job offer 1 -->
+                    <a href="@url">
+                        <div class="featured-job">
+                            <div class="col-sm-3">
+                                <img src="~/Assets/images/employer/@item.Employer.Image" height="60px" alt="" class="img-circle">
+                            </div>
+                            <div class="col-sm-9 title">
+                                <h5>@item.Title</h5>
+                                <p>@item.Career.CareerName</p>
+                            </div>
+                            <div class="col-sm-12 data">
+                                <span class="city"><i class="fa fa-map-marker"></i>@item.Location</span>
+                                <span class="type full-time"><i class="fa fa-clock-o"></i>@item.Form</span>
+                                <span class="sallary"><i class="fa fa-dollar"></i>@item.Salary.Value.ToString("N0") đ</span>
+                            </div>
+                            <div class="col-sm-12 description" style="height: 140px; overflow: hidden">
+                                @Html.Raw(item.Descriptions);
+                            </div>
+                        </div>
+                    </a>
+                }
+
+            </div>
+        </div>
+    </div>
+</section>
+

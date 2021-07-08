@@ -1,0 +1,244 @@
+﻿
+@{
+    ViewBag.Title = "Chỉnh sửa hồ sơ";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    var career = ViewBag.Career as List<FindJob.Models.EF.Career>;
+    var user = Session["user"] as FindJob.Models.EF.User;
+    var candi = ViewBag.Candidate as FindJob.Models.EF.Candidate;
+}
+
+@if (candi != null)
+{
+    <section id="jobs" style="margin-top: 50px">
+        <div class="container">
+            @using (Html.BeginForm("EditProfile", "User", FormMethod.Post, new { enctype = "multipart/form-data", id = "frmValidate" }))
+            {
+                <input type="hidden" name="User_ID" value="@user.ID" />
+                <input type="hidden" name="ID" value="@candi.ID" />
+                <div class="row">
+                    <h2 class="text-center">Bổ sung thông tin cá nhân</h2>
+                    <div class="col-sm-6">
+                        <div class="form-group" id="job-email-group">
+                            <label for="job-email">Họ và tên</label>
+                            <input type="text" class="form-control" value="@candi.Fullname" name="Fullname" id="job-email">
+                        </div>
+                        <div class="form-group" id="job-title-group">
+                            <label for="job-title">Ngày sinh</label>
+                            <input type="text" class="form-control datepicker" name="Birthday" value="@candi.Birthday.Value.ToString("dd-MM-yyyy")" id="job-title">
+                        </div>
+                        <div class="form-group" id="job-location-group">
+                            <label for="job-location">Giới tính</label>
+                            <div class="radio">
+                                <label><input type="radio" name="Sex" value="true" @(candi.Sex==true ? "checked": "") >Nam</label>
+                            </div>
+                            <div class="radio">
+                                <label><input type="radio" name="Sex" value="false" @(candi.Sex==false ? "checked": "")>Nữ</label>
+                            </div>
+                        </div>
+                        <div class="form-group wysiwyg" id="company-description-group">
+                            <label>Giới thiệu</label>
+                            <textarea rows="10" id="Introduce" Introduce name="Introduce">@candi.Introduce</textarea>
+                        </div>
+                    </div>
+                    <div class="col-sm-6">
+                        <div class="form-group" id="job-email-group">
+                            <label for="job-email">Địa chỉ</label>
+                            <input type="text" class="form-control" name="Address" value="@candi.Address" id="job-email">
+                        </div>
+                        <div class="form-group" id="job-email-group">
+                            <label for="job-email">Số điện thoại</label>
+                            <input type="text" class="form-control" name="Phone" value="@candi.Phone" id="job-email">
+                        </div>
+                        <div class="form-group" id="job-email-group">
+                            <label for="job-email">Email</label>
+                            <input type="text" class="form-control" name="Email" id="job-email" value="@candi.Email">
+                        </div>
+                        <div class="form-group" id="job-region-group">
+                            <label for="job-region">Kỹ năng</label>
+                            <select class="form-control" id="job-career" name="MainSkill">
+                                @foreach (var item in career)
+                                {
+                                    <option value="@item.CareerName" @(item.CareerName ==candi.MainSkill? "selected" : "")>@item.CareerName</option>
+                                }
+                            </select>
+                        </div>
+                        <div class="form-group" id="job-region-group">
+                            <label for="job-region">Kinh nghiệm</label>
+                            <select class="form-control" id="job-experience" name="Experience">
+                                <option value="1" @(candi.Experience ==1? "selected" : "")>Từ 0 - 1 năm kinh nghiệm</option>
+                                <option value="2" @(candi.Experience ==2? "selected" : "")>Từ 1 - 2 năm kinh nghiệm</option>
+                                <option value="3" @(candi.Experience ==3? "selected" : "")>Từ 2 - 3 năm kinh nghiệm</option>
+                                <option value="4" @(candi.Experience ==4? "selected" : "")>Trên 4 năm kinh nghiệm</option>
+                            </select>
+                        </div>
+                        <div class="form-group" id="company-logo-group">
+                            <label for="company-logo">Ảnh đại diện</label>
+                            <label for="file-upload" class="custom-file-upload">
+                                <i class="fa fa-cloud-upload"></i> @candi.Image
+                            </label>
+                            <input id="file-upload" name="Image" type="file" style="display:none;" accept="image/*">
+                        </div>
+                    </div>
+                </div>
+                <div class="row text-center">
+                    <p>&nbsp;</p>
+                    <button type="submit" href="#" class="btn btn-primary btn-lg">Chỉnh sửa hồ sơ </button>
+                </div>
+            }
+
+        </div>
+    </section>
+}
+else
+{
+    <section id="jobs" style="margin-top: 140px">
+        <div class="container">
+            @using (Html.BeginForm("EditProfile", "User", FormMethod.Post, new { enctype = "multipart/form-data", id = "frmValidate" }))
+            {
+                <input type="hidden" name="User_ID" value="@user.ID" />
+                <div class="row">
+                    <h2 class="text-center">Thông tin cá nhân</h2>
+                    <div class="col-sm-6">
+                        <div class="form-group" id="job-email-group">
+                            <label for="job-email">Họ và tên</label>
+                            <input type="text" class="form-control" name="Fullname" id="job-email">
+                        </div>
+                        <div class="form-group" id="job-title-group">
+                            <label for="job-title">Ngày sinh</label>
+                            <input type="text" class="form-control datepicker" name="Birthday" id="job-title">
+                        </div>
+                        <div class="form-group" id="job-location-group">
+                            <label for="job-location">Giới tính</label>
+                            <div class="radio">
+                                <label><input type="radio" name="Sex" value="true" checked>Nam</label>
+                            </div>
+                            <div class="radio">
+                                <label><input type="radio" name="Sex" value="false">Nữ</label>
+                            </div>
+                        </div>
+                        <div class="form-group wysiwyg" id="company-description-group">
+                            <label>Giới thiệu</label>
+                            <textarea rows="10" id="Introduce" Introduce name="Introduce"></textarea>
+                        </div>
+                    </div>
+                    <div class="col-sm-6">
+                        <div class="form-group" id="job-email-group">
+                            <label for="job-email">Địa chỉ</label>
+                            <input type="text" class="form-control" name="Address" id="job-email">
+                        </div>
+                        <div class="form-group" id="job-email-group">
+                            <label for="job-email">Số điện thoại</label>
+                            <input type="text" class="form-control" name="Phone" id="job-email">
+                        </div>
+                        <div class="form-group" id="job-email-group">
+                            <label for="job-email">Email</label>
+                            <input type="text" class="form-control" name="Email" id="job-email">
+                        </div>
+                        <div class="form-group" id="job-region-group">
+                            <label for="job-region">Kỹ năng</label>
+                            <select class="form-control" id="job-career" name="MainSkill">
+                                @foreach (var item in career)
+                                {
+                                    <option value="@item.CareerName">@item.CareerName</option>
+                                }
+                            </select>
+                        </div>
+                        <div class="form-group" id="job-region-group">
+                            <label for="job-region">Kinh nghiệm</label>
+                            <select class="form-control" id="job-experience" name="Experience">
+                                <option value="1">Từ 0 - 1 năm kinh nghiệm</option>
+                                <option value="2">Từ 1 - 2 năm kinh nghiệm</option>
+                                <option value="3">Từ 2 - 3 năm kinh nghiệm</option>
+                                <option value="4">Trên 4 năm kinh nghiệm</option>
+                            </select>
+                        </div>
+                        <div class="form-group" id="company-logo-group">
+                            <label for="company-logo">Ảnh đại diện</label>
+                            <input type="file" id="company-logo" name="Image" accept="image/*" />
+                        </div>
+                    </div>
+                </div>
+                <div class="row text-center">
+                    <p>&nbsp;</p>
+                    <button type="submit" href="#" class="btn btn-primary btn-lg">Chỉnh sửa hồ sơ </button>
+                </div>
+            }
+
+        </div>
+    </section>
+}
+
+
+
+@section jsSection{
+
+    <script>
+
+        $(document).ready(function () {
+            CKEDITOR.replace('Introduce');
+
+             $(".datepicker").datepicker({
+                format: "dd-mm-yyyy"
+            });
+
+            $('#file-upload').change(function () {
+              var i = $(this).prev('label').clone();
+              var file = '<i class="fa fa-cloud-upload"></i>' + $('#file-upload')[0].files[0].name;
+              $(this).prev('label').empty();
+              $(this).prev('label').append(file);
+            });
+
+
+            jQuery.validator.addMethod("phonenu", function (value, element) {
+                if (/^(09[0-9]|07[0|6|7|8|9]|03[2-9]|08[1-5])+([0-9]{7})\b/g.test(value)) {
+                    return true;
+                } else {
+                    return false;
+                };
+            }, "Invalid phone number");
+
+            jQuery.validator.addMethod("email_regex", function (value, element) {
+                if (/^[a-z][a-z0-9_\.]{5,32}@@[a-z0-9]{2,}(\.[a-z0-9]{2,4}){1,2}$/g.test(value)) {
+                    return true;
+                } else {
+                    return false;
+                };
+            }, "Invalid email");
+            //Khi bàn phím được nhấn và thả ra thì sẽ chạy phương thức này
+            $("#frmValidate").validate({
+                rules: {
+                    Fullname: "required",
+                    Birthday: "required",
+                    Image: "required",
+                    Address: "required",
+                    Introduce: "required",
+                    Email: {
+                        required: true,
+                        email_regex: true
+                    },
+                    Phone: {
+                        required: true,
+                        phonenu: true
+                    }
+                },
+                messages: {
+                    Fullname: "Vui lòng nhập họ và tên",
+                    Birthday: "Vui lòng nhập ngày tháng năm sinh",
+                    Image: "Vui lòng thêm ảnh",
+                    Address: "Vui lòng nhập địa chỉ",
+                    Introduce: "Vui lòng nhập giớỉ thiệu",
+                    Email: {
+                        required: "Vui lòng nhập email",
+                        email_regex: "Email không hợp lệ"
+                    },
+                    Phone: {
+                        required: "Vui lòng nhập số điện thoại",
+                        phonenu: "Số điện thoại không hợp lệ"
+                    }
+                }
+            });
+        });
+
+    </script>
+
+}

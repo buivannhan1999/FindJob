@@ -1,0 +1,234 @@
+﻿@model PagedList.IPagedList<FindJob.Models.EF.Post>
+@using PagedList.Mvc
+@{
+    ViewBag.Title = "Trang chủ";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    var jodFeature = ViewBag.JobFeature as List<FindJob.Models.EF.Post>;
+    var candidateFeature = ViewBag.CadidateFeature as List<FindJob.Models.EF.Candidate>;
+    var career = ViewBag.Career as List<FindJob.Models.EF.Career>;
+}
+
+<div class="container" style="margin-top: 50px">
+    <div class="row panel panel-default">
+        <div class="col-sm-3"></div>
+        <div class="col-sm-6" style="margin: 10px">
+            <div class="col-sm-4">
+                <label class="control-label">Đối tượng tìm kiếm</label>
+            </div>
+            <div class="col-sm-6">
+                <select class="form-control" id="ChooseType">
+                    <option value="0">---Chọn đối tượng tìm kiếm---</option>
+                    <option value="1">Tìm kiếm việc làm</option>
+                    @*<option value="2">Tìm kiếm ứng viên</option>*@
+                </select>
+            </div>
+        </div>
+        <div class="col-sm-8" style="margin-left: 310px; display: none" id="search_Job">
+            @*<h5>Tìm kiếm việc làm</h5>*@
+            <form class="navbar-form navbar-left" action="/Home/SearchJob" method="get">
+                <div class="col-sm-4 form-group">
+                    <label class="control-label">Ngành</label>
+                    <select class="form-control" id="Career_ID" name="Career_ID">
+                        <option value="0">---Chọn ngành---</option>
+                        @foreach (var item in career)
+                        {
+                            <option value="@item.ID">@item.CareerName</option>
+                        }
+                    </select>
+                </div>
+                <div class="col-sm-4 form-group">
+                    <label class="control-label">Kinh nghiệm</label>
+                    <select class="form-control" id="Experience" name="Experience">
+                        <option value="0">---Chọn kinh nghiệm---</option>
+                        <option value="1">Từ 0 đến 1 năm kinh nghiệm</option>
+                        <option value="2">Từ 1 đến 2 năm kinh nghiệm</option>
+                        <option value="3">Từ 2 đến 3 năm kinh nghiệm</option>
+                        <option value="4">Trên 3 năm kinh nghiệm</option>
+                    </select>
+                </div>
+                <div class="col-sm-4" style="margin-top: 20px">
+                    <label class="control-label"></label>
+                    <button type="submit" class="btn btn-primary">Tìm kiếm</button>
+                </div>
+
+            </form>
+        </div>
+        <div class="col-sm-8" style="margin-left: 310px; display: none" id="search_Candidate">
+            @*<h5>Tìm kiếm ứng viên</h5>*@
+            <form class="navbar-form navbar-left" action="/Home/SearchCandidate" method="get">
+
+                <div class="col-sm-4 form-group">
+                    <label class="control-label">Kỹ năng chính</label>
+                    <select class="form-control" name="MainSkill">
+                        <option value="0">---Chọn kỹ năng chính---</option>
+                        @foreach (var item in career)
+                        {
+                            <option value="@item.CareerName">@item.CareerName</option>
+                        }
+                    </select>
+                </div>
+                <div class="col-sm-4 form-group">
+                    <label class="control-label">Kinh nghiệm</label>
+                    <select class="form-control" name="Experience">
+                        <option value="0">---Chọn kinh nghiệm---</option>
+                        <option value="1">Từ 0 đến 1 năm kinh nghiệm</option>
+                        <option value="2">Từ 1 đến 2 năm kinh nghiệm</option>
+                        <option value="3">Từ 2 đến 3 năm kinh nghiệm</option>
+                        <option value="4">Trên 3 năm kinh nghiệm</option>
+                    </select>
+                </div>
+                <div class="col-sm-4" style="margin-top: 20px">
+                    <label class="control-label"></label>
+                    <button type="submit" class="btn btn-primary">Tìm kiếm</button>
+                </div>
+
+            </form>
+        </div>
+    </div>
+</div>
+
+<section id="jobs">
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-8">
+                <h2>Tin tuyển dụng mới đăng</h2>
+
+                <div class="jobs">
+                    @foreach (var item in Model)
+                    {
+                        var url = "/Post/Detail/" + item.ID;
+                        <!-- Job offer 1 -->
+                        <a href="@url">
+                            <div class="featured"></div>
+                            <img src="~/Assets/images/employer/@item.Employer.Image" height="60px" alt="" class="img-circle">
+                            <div class="col-sm-10 title">
+                                <h5>@item.Title</h5>
+                                <p>@item.Career.CareerName</p>
+                            </div>
+                            <div class="col-sm-12 data">
+                                <span class="col-sm-6"><i class="fa fa-map-marker" style="color: #14b1bb;"></i>@item.Location</span>
+                                <span class="col-sm-3"><i class="fa fa-clock-o" style="color: #14b1bb;"></i>@item.Form</span>
+                                <span class="col-sm-3"><i class="fa fa-dollar" style="color: #14b1bb;"></i>@item.Salary.Value.ToString("N0") đ</span>
+                            </div>
+                        </a>
+                    }
+
+                </div>
+
+                @Html.PagedListPager(Model, page => Url.Action("Index", new { page, pageSize = Model.PageSize }))
+
+            </div>
+            <div class="col-sm-4">
+                <h2>Việc làm nổi bật</h2>
+                @foreach (var item in jodFeature)
+                {
+                    var url = "/Post/Detail/" + item.ID;
+                    <!-- Job offer 1 -->
+                    <a href="@url">
+                        <div class="featured-job">
+                            <div class="col-sm-3">
+                                <img src="~/Assets/images/employer/@item.Employer.Image" height="60px" alt="" class="img-circle">
+                            </div>
+                            <div class="col-sm-9 title">
+                                <h5>@item.Title</h5>
+                                <p>@item.Career.CareerName</p>
+                            </div>
+                            <div class="col-sm-12 data">
+                                <span class="city"><i class="fa fa-map-marker"></i>@item.Location</span>
+                                <span class="type full-time"><i class="fa fa-clock-o"></i>@item.Form</span>
+                                <span class="sallary"><i class="fa fa-dollar"></i>@item.Salary.Value.ToString("N0") đ</span>
+                            </div>
+                            <div class="col-sm-12 description" style="height: 140px; overflow: hidden">
+                                @Html.Raw(item.Descriptions);
+                            </div>
+                        </div>
+                    </a>
+                }
+
+            </div>
+        </div>
+    </div>
+</section>
+
+<section id="jobs">
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-8">
+                <article>
+                    <h2>Ứng viên nổi bật</h2>
+
+                    <div class="jobs">
+
+                        @foreach (var item in candidateFeature)
+                        {
+                            <!-- Job offer 1 -->
+                            <a href="/User/Profile_Candidate/@item.User_ID">
+                                <div class="featured"></div>
+                                <img src="~/Assets/images/candidate/@item.Image" height="60px" alt="" class="img-circle">
+                                <div class="title">
+                                    <h5>@item.Fullname</h5>
+                                    <p>@item.MainSkill</p>
+                                </div>
+                                <div class="data">
+                                    <span class="city">
+                                        <i class="fa fa-birthday-cake" style="color: #14b1bb;"></i>@if (item.Birthday != null)
+                                        {@item.Birthday.Value.ToString("dd/MM/yyyy")}
+                                    </span>
+                                    <span class="type full-time"><i class="fa fa-user" style="color: #14b1bb;"></i>@(item.Sex == true ? "Nam" : "Nữ")</span>
+                                    <span class="sallary"><i class="fa fa-calendar" style="color: #14b1bb;"></i>@item.Experience năm kinh nghiệm</span>
+                                </div>
+                            </a>
+                        }
+
+                    </div>
+
+                </article>
+            </div>
+            <div class="col-sm-4" id="sidebar">
+                <div class="sidebar-widget" id="share">
+                    <h2>Chia sẻ</h2>
+                    <ul>
+                        <li><a href="https://www.facebook.com/sharer/sharer.php?u=http://www.coffeecreamthemes.com/themes/jobseek/site/job-details.html"><i class="fa fa-facebook"></i></a></li>
+                        <li><a href="https://twitter.com/home?status=http://www.coffeecreamthemes.com/themes/jobseek/site/job-details.html"><i class="fa fa-twitter"></i></a></li>
+                        <li><a href="https://plus.google.com/share?url=http://www.coffeecreamthemes.com/themes/jobseek/site/job-details.html"><i class="fa fa-google-plus"></i></a></li>
+                        <li><a href="https://www.linkedin.com/shareArticle?mini=true&amp;url=http://www.coffeecreamthemes.com/themes/jobseek/site/job-details.html&amp;title=Jobseek%20-%20Job%20Board%20Responsive%20HTML%20Template&amp;summary=&amp;source="><i class="fa fa-linkedin"></i></a></li>
+                    </ul>
+                </div>
+                <hr>
+                <div class="sidebar-widget" id="widget-contact">
+                    <h2>Liên hệ</h2>
+                    <ul>
+                        <li><i class="fa fa-building"></i>Tòa nhà Keangnam Hà Nội</li>
+                        <li><i class="fa fa-map-marker"></i>Khu E6 Đô thị mới Cầu Giấy</li>
+                        <li><i class="fa"></i>Phạm Hùng, Mễ Trì, Nam Từ Liêm, Hà Nội</li>
+                        <li><i class="fa fa-phone"></i>01.22.987.8392</li>
+                        <li><i class="fa fa-envelope"></i><a href="mailto:company@yourdomain.com">Send an email</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+
+@section jsSection{
+
+    <script>
+
+        $(document).ready(function () {
+            $('#ChooseType').change(function () {
+                var value = $(this).val();
+                if (value == 1) {
+                    $('#search_Job').css({ 'margin-left': '310px', 'display': 'block' });
+                    $('#search_Candidate').css({ 'margin-left': '310px', 'display': 'none' });
+                } else {
+                    $('#search_Job').css({ 'margin-left': '310px', 'display': 'none' });
+                    $('#search_Candidate').css({ 'margin-left': '310px', 'display': 'block' });
+                }
+            });
+        });
+
+    </script>
+
+}

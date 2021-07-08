@@ -1,0 +1,329 @@
+﻿
+@{
+    Layout = null;
+    var candi = ViewBag.Candidate as FindJob.Models.EF.Candidate;
+}
+
+<!DOCTYPE html>
+<html lang="en-US">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Tạo cv online | Jobseek</title>
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="crossorigin" />
+    <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Poppins:wght@600&amp;family=Roboto:wght@300;400;500;700&amp;display=swap" />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@600&amp;family=Roboto:wght@300;400;500;700&amp;display=swap" media="print" onload="this.media='all'" />
+    <noscript>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@600&amp;family=Roboto:wght@300;400;500;700&amp;display=swap" />
+    </noscript>
+    <link href="~/Assets/cv/css/font-awesome/css/all.min.css?ver=1.2.0" rel="stylesheet">
+    <link href="~/Assets/cv/css/bootstrap.min.css?ver=1.2.0" rel="stylesheet">
+    <link href="~/Assets/datepicker/datepicker3.css" rel="stylesheet" />
+    <link href="~/Assets/cv/css/aos.css?ver=1.2.0" rel="stylesheet">
+    <link href="~/Assets/cv/css/main.css?ver=1.2.0" rel="stylesheet">
+    <noscript>
+        <style type="text/css">
+            [data-aos] {
+                opacity: 1 !important;
+                transform: translate(0) scale(1) !important;
+            }
+        </style>
+    </noscript>
+</head>
+<body id="top">
+    <div class="page-content">
+        <div class="container">
+            <div class="cover shadow-lg bg-white">
+                <div class="cover-bg p-3 p-lg-4 text-white">
+                    <div class="row">
+                        <div class="col-lg-4 col-md-5">
+                            <div class="avatar hover-effect bg-white shadow-sm p-1"><img src="~/Assets/images/candidate/@candi.Image" width="200" height="200" /></div>
+                        </div>
+                        <div class="col-lg-8 col-md-7 text-center text-md-start">
+                            <h2 class="h1 mt-2" data-aos="fade-left" data-aos-delay="0">@candi.Fullname</h2>
+                            <p data-aos="fade-left" data-aos-delay="100">@candi.MainSkill</p>
+                            @*<div class="d-print-none" data-aos="fade-left" data-aos-delay="200">
+                                <a class="btn btn-light text-dark shadow-sm mt-1 me-1" href="right-resume.pdf" target="_blank">Download CV</a>
+                                <a class="btn btn-success shadow-sm mt-1" href="#contact">Hire Me</a>
+                            </div>*@
+                        </div>
+                    </div>
+                </div>
+                <div class="about-section pt-4 px-3 px-lg-4 mt-1">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <h2 class="h3 mb-3">Giới thiệu</h2>
+                            @Html.Raw(candi.Introduce)
+                        </div>
+                        <div class="col-md-5 offset-md-1">
+                            <div class="row mt-2">
+                                <div class="col-sm-4">
+                                    <div class="pb-1">Ngày sinh</div>
+                                </div>
+                                <div class="col-sm-8">
+                                    <div class="pb-1 text-secondary">@candi.Birthday.Value.ToString("dd/MM/yyyy")</div>
+                                </div>
+                                <div class="col-sm-4">
+                                    <div class="pb-1">Email</div>
+                                </div>
+                                <div class="col-sm-8">
+                                    <div class="pb-1 text-secondary">@candi.Email</div>
+                                </div>
+                                <div class="col-sm-4">
+                                    <div class="pb-1">Điện thoại</div>
+                                </div>
+                                <div class="col-sm-8">
+                                    <div class="pb-1 text-secondary">@candi.Phone</div>
+                                </div>
+                                <div class="col-sm-4">
+                                    <div class="pb-1">Địa chỉ</div>
+                                </div>
+                                <div class="col-sm-8">
+                                    <div class="pb-1 text-secondary">@candi.Address</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <hr class="d-print-none" />
+                @using (Html.BeginForm("CreateCV", "User", FormMethod.Post))
+                {
+                    <input type="hidden" name="Candidate_ID" value="@candi.ID"/>
+                    <div class="skills-section px-3 px-lg-4">
+                        <h2 class="h3 mb-3">Kỹ năng nổi bật</h2>
+                        <div class="row form-group">
+                            <div class="col-5">
+                                <select class="form-control" id="select_MainSkill">
+                                    <option value="" disabled>---Chọn kỹ năng---</option>
+                                    <option value="HTML">HTML</option>
+                                    <option value="CSS">CSS</option>
+                                    <option value="JavaScript">JavaScript</option>
+                                    <option value="Adobe Photoshop">Adobe Photoshop</option>
+                                    <option value="Sketch">Sketch</option>
+                                    <option value="Adobe XD">Adobe XD</option>
+                                </select>
+                            </div>
+                            <div class="col-5">
+                                <input class="form-control" type="number" min="50" value="50" max="100" id="select_Level" placeholder="Mức kỹ năng (10% or 20%...90%)" required>
+                            </div>
+
+
+                        </div>
+                    </div>
+                    <div class="skills-section px-3 px-lg-4" style="margin-bottom: 10px">
+                        <button class="btn btn-primary mt-2" id="add_Skill" type="button">Thêm</button>
+                    </div>
+                    <div class="skills-section px-3 px-lg-4" id="Skill">
+
+                    </div>
+
+                    <hr class="d-print-none" />
+                    <div class="work-experience-section px-3 px-lg-4" id="Experience">
+                        <h2 class="h3 mb-4">Kinh nghiệm làm việc</h2>
+                        <div class="row form-group">
+                            <div class="col-6">
+                                <input class="form-control" type="text" name="ExperienceDTOs[0].Position" placeholder="Chức vụ..." required>
+                            </div>
+                            <div class="col-6">
+                                <input class="form-control" type="text" name="ExperienceDTOs[0].Place" placeholder="Tại..." required>
+                            </div>
+                        </div>
+                        <div class="row form-group">
+                            <div class="col-6">
+                                <input class="form-control datepicker" type="text" name="ExperienceDTOs[0].FromDate" placeholder="Từ ngày..." required>
+                            </div>
+                            <div class="col-6">
+                                <input class="form-control datepicker" type="text" name="ExperienceDTOs[0].ToDate" placeholder="Đến ngày..." required>
+                            </div>
+                        </div>
+                        <div class="form-group my-2">
+                            <textarea class="form-control" style="resize: none;" name="ExperienceDTOs[0].Descriptions" rows="4" placeholder="Mô tả công việc..." required></textarea>
+                        </div>
+
+                    </div>
+                    <div class="px-lg-4">
+                        <button class="btn btn-primary mt-2" id="add_Exper" type="button">Thêm</button>
+                    </div>
+
+                    <hr class="d-print-none" />
+                    <div class="page-break"></div>
+                    <div class="education-section px-3 px-lg-4 pb-4" id="Education">
+                        <h2 class="h3 mb-4">Học vấn</h2>
+                        <div class="row form-group">
+                            <div class="col-6">
+                                <input class="form-control" type="text" name="EducationDTOs[0].Education" placeholder="Chức vụ..." required>
+                            </div>
+                            <div class="col-6">
+                                <input class="form-control" type="text" name="EducationDTOs[0].School" placeholder="Tại..." required>
+                            </div>
+                        </div>
+                        <div class="row form-group">
+                            <div class="col-6">
+                                <input class="form-control datepicker" type="text" name="EducationDTOs[0].FromDate_Educ" placeholder="Từ ngày..." required>
+                            </div>
+                            <div class="col-6">
+                                <input class="form-control datepicker" type="text" name="EducationDTOs[0].ToDate_Educ" placeholder="Đến ngày..." required>
+                            </div>
+                        </div>
+                        <div class="form-group my-2">
+                            <textarea class="form-control" style="resize: none;" name="EducationDTOs[0].Descriptions_Educ" rows="4" placeholder="Mô tả công việc..." required></textarea>
+                        </div>
+
+
+                    </div>
+                    <div class="px-lg-4">
+                        <button class="btn btn-primary mt-2" id="add_Educ" type="button">Thêm</button>
+                    </div>
+                    <div class="contant-section px-3 px-lg-4 pb-4" id="contact">
+                        <div class="row">
+                            <div class="col-md-3 d-print-none">
+
+                            </div>
+                            <div class="col-md-6">
+                                <button class="btn btn-lg btn-info mt-2" type="submit" style="width: 100%; font-size: 24px;">Tạo CV</button>
+                            </div>
+
+                        </div>
+                    </div>
+                }
+                
+            </div>
+        </div>
+    </div>
+
+    <script src="~/Scripts/jquery-3.3.1.min.js"></script>
+    <script src="~/Assets/cv/scripts/bootstrap.bundle.min.js?ver=1.2.0"></script>
+    <script src="~/Assets/datepicker/bootstrap-datepicker.js"></script>
+    <script src="~/Scripts/jquery.validate.min.js"></script>
+    <script src="~/Assets/cv/scripts/aos.js?ver=1.2.0"></script>
+    <script src="~/Assets/cv/scripts/main.js?ver=1.2.0"></script>
+    <script>
+        var dem = 1, dem_1 = 1, dem_2 = 0;
+        $(document).ready(function () {
+            //CKEDITOR.replace('Introduce');
+
+            $(".datepicker").datepicker({
+                format: "dd-mm-yyyy"
+            });
+
+            $('#add_Exper').off('click').on('click', function () {
+                if (dem == 1 || dem == 2 || dem == 3) {
+                    var str =
+                        '<div class="row" id="PP_' + dem + '">'
+                            +'<div class="col-6">'
+                                +'<input class="form-control" type="text" name="ExperienceDTOs[' + dem + '].Position" placeholder="Chức vụ..." required>'
+                            +'</div>'
+                            +'<div class="col-6">'
+                                +'<input class="form-control" type="text" name="ExperienceDTOs[' + dem + '].Place" placeholder="Tại..." required>'
+                            +'</div>'
+                        +'</div>'
+                        +'<div class="row" id="FT_' + dem + '">'
+                            +'<div class="col-6">'
+                                +'<input class="form-control datepicker" type="date" name="ExperienceDTOs[' + dem + '].FromDate" placeholder="Từ ngày..." required>'
+                            +'</div>'
+                            +'<div class="col-6">'
+                                +'<input class="form-control datepicker" type="date" name="ExperienceDTOs[' + dem + '].ToDate" placeholder="Đến ngày..." required>'
+                            +'</div>'
+                        +'</div>'
+                        +'<div class="form-group my-2" id="De_' + dem + '">'
+                            +'<textarea class="form-control" style="resize: none;" name="ExperienceDTOs[' + dem + '].Descriptions" rows="4" placeholder="Mô tả công việc..." required></textarea>'
+                    + '</div>'
+                    + '<div class="input-group-btn"  id="Del_' + dem + '">'
+                                 + '<a class="btn btn-danger" onclick="DeleteInput(' + dem + ')">'
+                                       + '<i class="fa fa-times"></i>'
+                                 + '</a>'
+                            + '</div>';
+
+                $('#Experience').append(str);
+                dem++;
+                } else {
+                    return;
+                }
+                
+            });
+
+            $('#add_Educ').off('click').on('click', function () {
+                if (dem_1 == 1 || dem_1 == 2 || dem_1 == 3) {
+                    var str =
+                        '<div class="row" id="PP1_' + dem_1 + '">'
+                            +'<div class="col-6">'
+                                +'<input class="form-control" type="text" name="EducationDTOs[' + dem_1 + '].Education" placeholder="Chức vụ..." required>'
+                            +'</div>'
+                            +'<div class="col-6">'
+                                +'<input class="form-control" type="text" name="EducationDTOs[' + dem_1 + '].School" placeholder="Tại..." required>'
+                            +'</div>'
+                        +'</div>'
+                        +'<div class="row" id="FT1_' + dem_1 + '">'
+                            +'<div class="col-6">'
+                                +'<input class="form-control datepicker" type="date" name="EducationDTOs[' + dem_1 + '].FromDate_Educ" placeholder="Từ ngày..." required>'
+                            +'</div>'
+                            +'<div class="col-6">'
+                                +'<input class="form-control datepicker" type="date" name="EducationDTOs[' + dem_1 + '].ToDate_Educ" placeholder="Đến ngày..." required>'
+                            +'</div>'
+                        +'</div>'
+                        +'<div class="form-group my-2" id="De1_' + dem_1 + '">'
+                            +'<textarea class="form-control" style="resize: none;" name="EducationDTOs[' + dem_1 + '].Descriptions_Educ" rows="4" placeholder="Mô tả công việc..." required></textarea>'
+                    + '</div>'
+                    + '<div class="input-group-btn"  id="Del1_' + dem_1 + '">'
+                                 + '<a class="btn btn-danger" onclick="DeleteInput_1(' + dem_1 + ')">'
+                                       + '<i class="fa fa-times"></i>'
+                                 + '</a>'
+                            + '</div>';
+
+                $('#Education').append(str);
+                dem_1++;
+                } else {
+                    return;
+                }
+                
+            });
+
+             $('#add_Skill').off('click').on('click', function () {
+                 var select_skill = $('#select_MainSkill').val();
+                 var skill_level = $('#select_Level').val();
+                 var str =
+                     '<div class="row form-group" id="skill_' + dem_2 + '">'
+                            +'<div class="col-5">'
+                                +'<input type="text" class="form-control"  name="LevelDTOs[' + dem_2 + '].MainSkill" value="' + select_skill + '" />'
+                            +'</div>'
+                            +'<div class="col-5">'
+                                +'<input type="text" class="form-control"  name="LevelDTOs[' + dem_2 + '].Level" value="' + skill_level + '" />'
+                            +'</div>'
+                            +'<div class="col-2">'
+                                +'<a class="btn btn-danger" onclick="DeleteInput_2(' + dem_2 + ',\''+ select_skill +'\')"><i class="btn btn-close"></i></a>'
+                            +'</div>'
+                        +'</div>';
+
+                 $('#Skill').append(str);
+                 $('option[value="'+ select_skill +'"]').remove();
+                 dem_2++;
+            });
+        });
+        function DeleteInput(id) {
+            $('#PP_' + id).remove();
+            $('#FT_' + id).remove();
+            $('#De_' + id).remove();
+            $('#Del_' + id).remove();
+            dem--;
+        }
+
+        function DeleteInput_1(id) {
+            $('#PP1_' + id).remove();
+            $('#FT1_' + id).remove();
+            $('#De1_' + id).remove();
+            $('#Del1_' + id).remove();
+            dem_1--;
+        }
+
+        function DeleteInput_2(id, str) {
+            console.log(str);
+            $('#skill_' + id).remove();
+            var option = '<option value='+ str +'>'+ str +'</option>';
+            $('#select_MainSkill').append(option);
+            dem_2--;
+        }
+    </script>
+</body>
+</html>
+

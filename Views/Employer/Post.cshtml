@@ -1,0 +1,156 @@
+﻿
+@{
+    ViewBag.Title = "Đăng tin tuyển dụng";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    var employ = ViewBag.Employer as FindJob.Models.EF.Employer;
+    var career = ViewBag.Career as List<FindJob.Models.EF.Career>;
+}
+
+@if (TempData["add_success"] != null)
+{
+    <section id="AlertBox" style="margin-top: 140px">
+        <div class="container">
+            <div class="row text-center">
+                <div class="col-sm-12 alert alert-success">
+                    <h1>@TempData["add_success"]</h1>
+                </div>
+            </div>
+        </div>
+    </section>
+}
+
+
+@if (employ == null)
+{
+    <section id="jobs" style="margin-top: 140px">
+        <div class="container">
+            <div class="row text-center">
+                <div class="col-sm-12">
+                    <h1>Hồ sơ cá nhân</h1>
+                    <h4>Bạn chưa nhập thông tin hồ sơ.</h4>
+                    <div class="jumbotron">
+                        <h3>Bạn chưa cập nhật hồ sơ?</h3>
+                        <p>Bạn vui lòng cập nhật thông tin hồ sơ tại đây</p>
+                        <p><a href="/Employer/Edit" class="btn btn-primary">Cập nhật hồ sơ</a></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+}
+else
+{
+    <section id="jobs" style="margin-top: 140px">
+        <div class="container">
+            @using (Html.BeginForm("AddPost", "Employer", FormMethod.Post, new { enctype = "multipart/form-data", id = "frmValidate" }))
+            {
+                <input type="hidden" name="Employer_ID" value="@employ.ID" />
+                <div class="row">
+                    <h2 class="text-center">Đăng thông tin tuyển dụng</h2>
+                    <div class="col-sm-6">
+                        <div class="form-group" id="job-email-group">
+                            <label for="job-email">Tiêu đề</label>
+                            <input type="text" class="form-control" name="Title" id="job-email" placeholder="Công ty ABC ... tuyển dụng vị trí...">
+                        </div>
+                        <div class="form-group" id="job-title-group">
+                            <label for="job-title">Địa điểm làm việc</label>
+                            <input type="text" class="form-control" name="Location" id="job-title" placeholder="Làm việc tại...">
+                        </div>
+                        <div class="form-group" id="job-location-group">
+                            <label for="job-location">Chuyên môn</label>
+                            <select class="form-control" id="job-career" name="Career_ID">
+                                @foreach (var item in career)
+                                {
+                                    <option value="@item.ID">@item.CareerName</option>
+                                }
+                            </select>
+                        </div>
+                        
+                        <div class="form-group wysiwyg" id="company-description-group">
+                            <label>Mô tả công việc</label>
+                            <textarea rows="10" id="Descriptions" name="Descriptions"></textarea>
+                        </div>
+                    </div>
+                    <div class="col-sm-6">
+                        <div class="form-group" id="job-region-group">
+                            <label for="job-region">Hình thức làm việc</label>
+                            <select class="form-control" id="job-experience" name="Form">
+                                <option value="Toàn thời gian">Toàn thời gian</option>
+                                <option value="Bán thời gian">Bán thời gian</option>
+                            </select>
+                        </div>
+                        <div class="form-group" id="job-email-group">
+                            <label for="job-email">Hạn chót nhận hồ sơ</label>
+                            <input type="text" class="form-control datepicker" name="Dealine" id="job-email">
+                        </div>
+                        <div class="form-group" id="job-region-group">
+                            <label for="job-region">Kinh nghiệm</label>
+                            <select class="form-control" id="job-experience" name="Experience">
+                                <option value="1">Từ 0 - 1 năm kinh nghiệm</option>
+                                <option value="2">Từ 1 - 2 năm kinh nghiệm</option>
+                                <option value="3">Từ 2 - 3 năm kinh nghiệm</option>
+                                <option value="4">Trên 4 năm kinh nghiệm</option>
+                            </select>
+                        </div>
+                        <div class="form-group" id="job-email-group">
+                            <label for="job-email">Mức lương up to</label>
+                            <input type="number" min="1000000" class="form-control" name="Salary" id="job-email" placeholder="Up to 10.000.000 vnđ">
+                        </div>
+                    </div>
+                </div>
+                <div class="row text-center">
+                    <p>&nbsp;</p>
+                    <button type="submit" class="btn btn-primary btn-lg">Đăng thông tin</button>
+                </div>
+            }
+
+        </div>
+    </section>
+}
+
+
+@section jsSection{
+
+    <script>
+        //nếu không có thao tác gì thì ẩn đi
+        $('#AlertBox').removeClass('hide');
+
+        //Sau khi hiển thị lên thì delay 1s và cuộn lên trên sử dụng slideup
+        $('#AlertBox').delay(2000).slideUp(500);
+
+        $(document).ready(function () {
+            CKEDITOR.replace('Descriptions');
+
+            var date = new Date();
+            var today = new Date(date.getFullYear(), date.getMonth(), date.getDate());
+            $(".datepicker").datepicker({
+                format: "dd-mm-yyyy",
+                autoclose: true,
+                todayHighlight: true,
+                startDate: today
+            }).datepicker('update', new Date());
+
+            //Khi bàn phím được nhấn và thả ra thì sẽ chạy phương thức này
+            $("#frmValidate").validate({
+                rules: {
+                    Title: "required",
+                    Location: "required",
+                    Descriptions: "required",
+                    Dealine: "required",
+                    Salary: "required"
+                },
+                messages: {
+                    Title: "Vui lòng nhập tiêu đề",
+                    Location: "Vui lòng nhập địa điểm làm việc",
+                    Descriptions: "Vui lòng nhập mô tả",
+                    Dealine: "Vui lòng nhập hạn chót nhận hồ sơ",
+                    Salary: "Vui lòng nhập mức lương"
+                }
+            });
+        });
+
+    </script>
+
+}
+
+

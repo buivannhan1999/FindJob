@@ -1,0 +1,90 @@
+﻿
+@{
+    ViewBag.Title = "Danh sách ứng tuyển";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    int dem = 1;
+    var listJoin = ViewBag.ListJoin as List<FindJob.Models.EF.Join>;
+    var post = ViewBag.Post as FindJob.Models.EF.Post;
+}
+
+
+<section id="options" style="margin-top: 25px;">
+    <div class="container">
+
+        <!-- Columns Start -->
+        <div class="row">
+            <div class="col-sm-12">
+                <h2>Danh sách ứng tuyển cho bài đăng: <span style="color: blue">@post.Title</span></h2>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="table-responsive">
+                    <table class="table table-striped table-bordered table-hover">
+                        <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>Họ và tên ứng viên</th>
+                                <th>Ngày ứng tuyển</th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in listJoin)
+                            {
+                                <tr>
+                                    <td>@dem</td>
+                                    <td>@item.Candidate.Fullname</td>
+                                    <td>@item.DateJoin.Value.ToString("hh:mm:ss tt dd/MM/yyyy")</td>
+                                    <td>
+                                        <a class="btn btn-default" href="/User/Profile_Candidate/@item.Candidate.User_ID" title="Xem thông tin ứng viên">Xem chi tiết</a>
+                                        <button class="btn btn-primary btnChose" data-id="@item.ID" title="Chấp nhận ứng viên">Chọn ứng viên</button>
+                                    </td>
+                                </tr>
+                                dem++;
+                            }
+
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</section>
+
+
+@section jsSection{
+
+    <script>
+
+        $(document).ready(function () {
+            $('.btnChose').click(function () {
+                var ID = $(this).data("id");
+                $.ajax({
+                    data: {
+                        ID: $(this).data("id")
+                    },
+                    url: '/Employer/ChosesCandidate',
+                    dataType: 'Json',
+                    type: 'POST',
+                    success: function (res) {
+                        if (res.status == true) {
+
+                            PNotify.success({
+                                title: 'THÔNG BÁO!!',
+                                text: 'Chấp nhận ứng viên thành công.'
+                            });
+                             setTimeout(function () {
+                                window.location.href = "/Employer/Accept/" + @post.ID;
+                            }, 5000);
+                        } 
+                    }
+                });
+            });
+        });
+
+    </script>
+
+}
+

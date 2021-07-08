@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.29519.87
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FindJob", "FindJob.csproj", "{500BF0D3-558E-4945-96B7-11AC5182BB3C}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{500BF0D3-558E-4945-96B7-11AC5182BB3C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{500BF0D3-558E-4945-96B7-11AC5182BB3C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{500BF0D3-558E-4945-96B7-11AC5182BB3C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{500BF0D3-558E-4945-96B7-11AC5182BB3C}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {C0CF03A7-1B3E-4F2D-99FE-CB396E2C8A64}
+	EndGlobalSection
+EndGlobal

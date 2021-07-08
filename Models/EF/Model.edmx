@@ -1,0 +1,1094 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="FindJobModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Candidate">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Fullname" Type="nvarchar" MaxLength="150" />
+          <Property Name="Birthday" Type="date" />
+          <Property Name="Sex" Type="bit" />
+          <Property Name="Image" Type="nvarchar" MaxLength="250" />
+          <Property Name="Phone" Type="nchar" MaxLength="20" />
+          <Property Name="Address" Type="nvarchar" MaxLength="250" />
+          <Property Name="Email" Type="nvarchar" MaxLength="250" />
+          <Property Name="Introduce" Type="ntext" />
+          <Property Name="MainSkill" Type="nvarchar" MaxLength="250" />
+          <Property Name="Experience" Type="int" />
+          <Property Name="User_ID" Type="bigint" />
+          <Property Name="Status" Type="bit" />
+        </EntityType>
+        <EntityType Name="Career">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="CareerName" Type="nvarchar" MaxLength="50" />
+          <Property Name="Detail" Type="nvarchar" MaxLength="450" />
+        </EntityType>
+        <EntityType Name="Education">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Education" Type="nvarchar" MaxLength="250" />
+          <Property Name="School" Type="nvarchar" MaxLength="250" />
+          <Property Name="FromDate" Type="datetime" />
+          <Property Name="ToDate" Type="datetime" />
+          <Property Name="Descriptions" Type="ntext" />
+          <Property Name="Candidate_ID" Type="bigint" />
+        </EntityType>
+        <EntityType Name="Employer">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Fullname" Type="nvarchar" MaxLength="50" />
+          <Property Name="Place" Type="nvarchar" MaxLength="50" />
+          <Property Name="Image" Type="nvarchar" MaxLength="350" />
+          <Property Name="Descriptions" Type="ntext" />
+          <Property Name="CompanyName" Type="nvarchar" MaxLength="350" />
+          <Property Name="Address" Type="nvarchar" MaxLength="450" />
+          <Property Name="Phone" Type="nchar" MaxLength="20" />
+          <Property Name="Email" Type="nchar" MaxLength="100" />
+          <Property Name="User_ID" Type="bigint" />
+          <Property Name="Status" Type="bit" />
+        </EntityType>
+        <EntityType Name="Evaluate">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Candidate_ID" Type="bigint" />
+          <Property Name="Employer_ID" Type="bigint" />
+          <Property Name="Rate" Type="int" />
+          <Property Name="Content" Type="nvarchar" MaxLength="50" />
+          <Property Name="Descriptions" Type="ntext" />
+          <Property Name="CreatedDate" Type="datetime" />
+          <Property Name="Type" Type="int" />
+          <Property Name="Status" Type="bit" />
+        </EntityType>
+        <EntityType Name="Experience">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Position" Type="nvarchar" MaxLength="250" />
+          <Property Name="Place" Type="nvarchar" MaxLength="450" />
+          <Property Name="FromDate" Type="datetime" />
+          <Property Name="ToDate" Type="datetime" />
+          <Property Name="Descriptions" Type="ntext" />
+          <Property Name="Candidate_ID" Type="bigint" />
+        </EntityType>
+        <EntityType Name="Join">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Post_ID" Type="bigint" />
+          <Property Name="Candidate_ID" Type="bigint" />
+          <Property Name="DateJoin" Type="datetime" />
+          <Property Name="Status" Type="bit" />
+        </EntityType>
+        <EntityType Name="Post">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Title" Type="nvarchar" MaxLength="450" />
+          <Property Name="Location" Type="nvarchar" MaxLength="250" />
+          <Property Name="Career_ID" Type="bigint" />
+          <Property Name="Form" Type="nvarchar" MaxLength="50" />
+          <Property Name="Dealine" Type="datetime" />
+          <Property Name="CreatedDate" Type="datetime" />
+          <Property Name="Salary" Type="decimal" Precision="38" Scale="0" />
+          <Property Name="Descriptions" Type="ntext" />
+          <Property Name="Experience" Type="nvarchar" MaxLength="50" />
+          <Property Name="Employer_ID" Type="bigint" />
+          <Property Name="Status" Type="bit" />
+        </EntityType>
+        <EntityType Name="Save">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Candidate_ID" Type="bigint" />
+          <Property Name="Post_ID" Type="bigint" />
+          <Property Name="Employer_ID" Type="bigint" />
+          <Property Name="DateSave" Type="datetime" />
+        </EntityType>
+        <EntityType Name="Skill">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="MainSkill" Type="nvarchar" MaxLength="150" />
+          <Property Name="Level" Type="int" />
+          <Property Name="Candidate_ID" Type="bigint" />
+        </EntityType>
+        <EntityType Name="sysdiagrams">
+          <Key>
+            <PropertyRef Name="diagram_id" />
+          </Key>
+          <Property Name="name" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="principal_id" Type="int" Nullable="false" />
+          <Property Name="diagram_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="version" Type="int" />
+          <Property Name="definition" Type="varbinary(max)" />
+        </EntityType>
+        <EntityType Name="User">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Account" Type="nchar" MaxLength="100" />
+          <Property Name="Password" Type="nchar" MaxLength="100" />
+          <Property Name="Fullname" Type="nvarchar" MaxLength="250" />
+          <Property Name="Type" Type="int" />
+          <Property Name="Status" Type="bit" />
+        </EntityType>
+        <Association Name="FK_Candidate_User_ID">
+          <End Role="User" Type="Self.User" Multiplicity="0..1" />
+          <End Role="Candidate" Type="Self.Candidate" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="User">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Candidate">
+              <PropertyRef Name="User_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Education_Candidate">
+          <End Role="Candidate" Type="Self.Candidate" Multiplicity="0..1" />
+          <End Role="Education" Type="Self.Education" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Candidate">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Education">
+              <PropertyRef Name="Candidate_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Employer_User_ID">
+          <End Role="User" Type="Self.User" Multiplicity="0..1" />
+          <End Role="Employer" Type="Self.Employer" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="User">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Employer">
+              <PropertyRef Name="User_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Evaluate_Candidate">
+          <End Role="Candidate" Type="Self.Candidate" Multiplicity="0..1" />
+          <End Role="Evaluate" Type="Self.Evaluate" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Candidate">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Evaluate">
+              <PropertyRef Name="Candidate_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Evaluate_Employer">
+          <End Role="Employer" Type="Self.Employer" Multiplicity="0..1" />
+          <End Role="Evaluate" Type="Self.Evaluate" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Employer">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Evaluate">
+              <PropertyRef Name="Employer_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Experience_Candidate">
+          <End Role="Candidate" Type="Self.Candidate" Multiplicity="0..1" />
+          <End Role="Experience" Type="Self.Experience" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Candidate">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Experience">
+              <PropertyRef Name="Candidate_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Join_Candidate">
+          <End Role="Candidate" Type="Self.Candidate" Multiplicity="0..1" />
+          <End Role="Join" Type="Self.Join" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Candidate">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Join">
+              <PropertyRef Name="Candidate_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Join_Post">
+          <End Role="Post" Type="Self.Post" Multiplicity="0..1" />
+          <End Role="Join" Type="Self.Join" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Post">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Join">
+              <PropertyRef Name="Post_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Post_Career">
+          <End Role="Career" Type="Self.Career" Multiplicity="0..1" />
+          <End Role="Post" Type="Self.Post" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Career">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Post">
+              <PropertyRef Name="Career_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Post_Employer">
+          <End Role="Employer" Type="Self.Employer" Multiplicity="0..1" />
+          <End Role="Post" Type="Self.Post" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Employer">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Post">
+              <PropertyRef Name="Employer_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Save_Candidate">
+          <End Role="Candidate" Type="Self.Candidate" Multiplicity="0..1" />
+          <End Role="Save" Type="Self.Save" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Candidate">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Save">
+              <PropertyRef Name="Candidate_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Save_Employer">
+          <End Role="Employer" Type="Self.Employer" Multiplicity="0..1" />
+          <End Role="Save" Type="Self.Save" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Employer">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Save">
+              <PropertyRef Name="Employer_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Save_Post">
+          <End Role="Post" Type="Self.Post" Multiplicity="0..1" />
+          <End Role="Save" Type="Self.Save" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Post">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Save">
+              <PropertyRef Name="Post_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Skill_Candidate">
+          <End Role="Candidate" Type="Self.Candidate" Multiplicity="0..1" />
+          <End Role="Skill" Type="Self.Skill" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Candidate">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Skill">
+              <PropertyRef Name="Candidate_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Function Name="fn_diagramobjects" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="true" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" ReturnType="int" />
+        <Function Name="sp_alterdiagram" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="diagramname" Type="nvarchar" Mode="In" />
+          <Parameter Name="owner_id" Type="int" Mode="In" />
+          <Parameter Name="version" Type="int" Mode="In" />
+          <Parameter Name="definition" Type="varbinary(max)" Mode="In" />
+        </Function>
+        <Function Name="sp_creatediagram" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="diagramname" Type="nvarchar" Mode="In" />
+          <Parameter Name="owner_id" Type="int" Mode="In" />
+          <Parameter Name="version" Type="int" Mode="In" />
+          <Parameter Name="definition" Type="varbinary(max)" Mode="In" />
+        </Function>
+        <Function Name="sp_dropdiagram" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="diagramname" Type="nvarchar" Mode="In" />
+          <Parameter Name="owner_id" Type="int" Mode="In" />
+        </Function>
+        <Function Name="sp_helpdiagramdefinition" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="diagramname" Type="nvarchar" Mode="In" />
+          <Parameter Name="owner_id" Type="int" Mode="In" />
+        </Function>
+        <Function Name="sp_helpdiagrams" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="diagramname" Type="nvarchar" Mode="In" />
+          <Parameter Name="owner_id" Type="int" Mode="In" />
+        </Function>
+        <Function Name="sp_renamediagram" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="diagramname" Type="nvarchar" Mode="In" />
+          <Parameter Name="owner_id" Type="int" Mode="In" />
+          <Parameter Name="new_diagramname" Type="nvarchar" Mode="In" />
+        </Function>
+        <Function Name="sp_upgraddiagrams" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+        <EntityContainer Name="FindJobModelStoreContainer">
+          <EntitySet Name="Candidate" EntityType="Self.Candidate" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Career" EntityType="Self.Career" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Education" EntityType="Self.Education" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Employer" EntityType="Self.Employer" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Evaluate" EntityType="Self.Evaluate" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Experience" EntityType="Self.Experience" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Join" EntityType="Self.Join" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Post" EntityType="Self.Post" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Save" EntityType="Self.Save" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Skill" EntityType="Self.Skill" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="User" EntityType="Self.User" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_Candidate_User_ID" Association="Self.FK_Candidate_User_ID">
+            <End Role="User" EntitySet="User" />
+            <End Role="Candidate" EntitySet="Candidate" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Education_Candidate" Association="Self.FK_Education_Candidate">
+            <End Role="Candidate" EntitySet="Candidate" />
+            <End Role="Education" EntitySet="Education" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Employer_User_ID" Association="Self.FK_Employer_User_ID">
+            <End Role="User" EntitySet="User" />
+            <End Role="Employer" EntitySet="Employer" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Evaluate_Candidate" Association="Self.FK_Evaluate_Candidate">
+            <End Role="Candidate" EntitySet="Candidate" />
+            <End Role="Evaluate" EntitySet="Evaluate" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Evaluate_Employer" Association="Self.FK_Evaluate_Employer">
+            <End Role="Employer" EntitySet="Employer" />
+            <End Role="Evaluate" EntitySet="Evaluate" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Experience_Candidate" Association="Self.FK_Experience_Candidate">
+            <End Role="Candidate" EntitySet="Candidate" />
+            <End Role="Experience" EntitySet="Experience" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Join_Candidate" Association="Self.FK_Join_Candidate">
+            <End Role="Candidate" EntitySet="Candidate" />
+            <End Role="Join" EntitySet="Join" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Join_Post" Association="Self.FK_Join_Post">
+            <End Role="Post" EntitySet="Post" />
+            <End Role="Join" EntitySet="Join" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Post_Career" Association="Self.FK_Post_Career">
+            <End Role="Career" EntitySet="Career" />
+            <End Role="Post" EntitySet="Post" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Post_Employer" Association="Self.FK_Post_Employer">
+            <End Role="Employer" EntitySet="Employer" />
+            <End Role="Post" EntitySet="Post" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Save_Candidate" Association="Self.FK_Save_Candidate">
+            <End Role="Candidate" EntitySet="Candidate" />
+            <End Role="Save" EntitySet="Save" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Save_Employer" Association="Self.FK_Save_Employer">
+            <End Role="Employer" EntitySet="Employer" />
+            <End Role="Save" EntitySet="Save" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Save_Post" Association="Self.FK_Save_Post">
+            <End Role="Post" EntitySet="Post" />
+            <End Role="Save" EntitySet="Save" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Skill_Candidate" Association="Self.FK_Skill_Candidate">
+            <End Role="Candidate" EntitySet="Candidate" />
+            <End Role="Skill" EntitySet="Skill" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="FindJobModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="Candidate">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Fullname" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
+          <Property Name="Birthday" Type="DateTime" Precision="0" />
+          <Property Name="Sex" Type="Boolean" />
+          <Property Name="Image" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
+          <Property Name="Phone" Type="String" MaxLength="20" FixedLength="true" Unicode="true" />
+          <Property Name="Address" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
+          <Property Name="Email" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
+          <Property Name="Introduce" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="MainSkill" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
+          <Property Name="Experience" Type="Int32" />
+          <Property Name="User_ID" Type="Int64" />
+          <Property Name="Status" Type="Boolean" />
+          <NavigationProperty Name="User" Relationship="Self.FK_Candidate_User_ID" FromRole="Candidate" ToRole="User" />
+          <NavigationProperty Name="Educations" Relationship="Self.FK_Education_Candidate" FromRole="Candidate" ToRole="Education" />
+          <NavigationProperty Name="Evaluates" Relationship="Self.FK_Evaluate_Candidate" FromRole="Candidate" ToRole="Evaluate" />
+          <NavigationProperty Name="Experiences" Relationship="Self.FK_Experience_Candidate" FromRole="Candidate" ToRole="Experience" />
+          <NavigationProperty Name="Joins" Relationship="Self.FK_Join_Candidate" FromRole="Candidate" ToRole="Join" />
+          <NavigationProperty Name="Saves" Relationship="Self.FK_Save_Candidate" FromRole="Candidate" ToRole="Save" />
+          <NavigationProperty Name="Skills" Relationship="Self.FK_Skill_Candidate" FromRole="Candidate" ToRole="Skill" />
+        </EntityType>
+        <EntityType Name="Career">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="CareerName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Detail" Type="String" MaxLength="450" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Posts" Relationship="Self.FK_Post_Career" FromRole="Career" ToRole="Post" />
+        </EntityType>
+        <EntityType Name="Education">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Education1" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
+          <Property Name="School" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
+          <Property Name="FromDate" Type="DateTime" Precision="3" />
+          <Property Name="ToDate" Type="DateTime" Precision="3" />
+          <Property Name="Descriptions" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Candidate_ID" Type="Int64" />
+          <NavigationProperty Name="Candidate" Relationship="Self.FK_Education_Candidate" FromRole="Education" ToRole="Candidate" />
+        </EntityType>
+        <EntityType Name="Employer">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Fullname" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Place" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Image" Type="String" MaxLength="350" FixedLength="false" Unicode="true" />
+          <Property Name="Descriptions" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="CompanyName" Type="String" MaxLength="350" FixedLength="false" Unicode="true" />
+          <Property Name="Address" Type="String" MaxLength="450" FixedLength="false" Unicode="true" />
+          <Property Name="Phone" Type="String" MaxLength="20" FixedLength="true" Unicode="true" />
+          <Property Name="Email" Type="String" MaxLength="100" FixedLength="true" Unicode="true" />
+          <Property Name="User_ID" Type="Int64" />
+          <Property Name="Status" Type="Boolean" />
+          <NavigationProperty Name="User" Relationship="Self.FK_Employer_User_ID" FromRole="Employer" ToRole="User" />
+          <NavigationProperty Name="Evaluates" Relationship="Self.FK_Evaluate_Employer" FromRole="Employer" ToRole="Evaluate" />
+          <NavigationProperty Name="Posts" Relationship="Self.FK_Post_Employer" FromRole="Employer" ToRole="Post" />
+          <NavigationProperty Name="Saves" Relationship="Self.FK_Save_Employer" FromRole="Employer" ToRole="Save" />
+        </EntityType>
+        <EntityType Name="Evaluate">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Candidate_ID" Type="Int64" />
+          <Property Name="Employer_ID" Type="Int64" />
+          <Property Name="Rate" Type="Int32" />
+          <Property Name="Content" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Descriptions" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="CreatedDate" Type="DateTime" Precision="3" />
+          <Property Name="Type" Type="Int32" />
+          <Property Name="Status" Type="Boolean" />
+          <NavigationProperty Name="Candidate" Relationship="Self.FK_Evaluate_Candidate" FromRole="Evaluate" ToRole="Candidate" />
+          <NavigationProperty Name="Employer" Relationship="Self.FK_Evaluate_Employer" FromRole="Evaluate" ToRole="Employer" />
+        </EntityType>
+        <EntityType Name="Experience">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Position" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
+          <Property Name="Place" Type="String" MaxLength="450" FixedLength="false" Unicode="true" />
+          <Property Name="FromDate" Type="DateTime" Precision="3" />
+          <Property Name="ToDate" Type="DateTime" Precision="3" />
+          <Property Name="Descriptions" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Candidate_ID" Type="Int64" />
+          <NavigationProperty Name="Candidate" Relationship="Self.FK_Experience_Candidate" FromRole="Experience" ToRole="Candidate" />
+        </EntityType>
+        <EntityType Name="Join">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Post_ID" Type="Int64" />
+          <Property Name="Candidate_ID" Type="Int64" />
+          <Property Name="DateJoin" Type="DateTime" Precision="3" />
+          <Property Name="Status" Type="Boolean" />
+          <NavigationProperty Name="Candidate" Relationship="Self.FK_Join_Candidate" FromRole="Join" ToRole="Candidate" />
+          <NavigationProperty Name="Post" Relationship="Self.FK_Join_Post" FromRole="Join" ToRole="Post" />
+        </EntityType>
+        <EntityType Name="Post">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Title" Type="String" MaxLength="450" FixedLength="false" Unicode="true" />
+          <Property Name="Location" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
+          <Property Name="Career_ID" Type="Int64" />
+          <Property Name="Form" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Dealine" Type="DateTime" Precision="3" />
+          <Property Name="CreatedDate" Type="DateTime" Precision="3" />
+          <Property Name="Salary" Type="Decimal" Precision="38" Scale="0" />
+          <Property Name="Descriptions" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Experience" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Employer_ID" Type="Int64" />
+          <Property Name="Status" Type="Boolean" />
+          <NavigationProperty Name="Career" Relationship="Self.FK_Post_Career" FromRole="Post" ToRole="Career" />
+          <NavigationProperty Name="Employer" Relationship="Self.FK_Post_Employer" FromRole="Post" ToRole="Employer" />
+          <NavigationProperty Name="Joins" Relationship="Self.FK_Join_Post" FromRole="Post" ToRole="Join" />
+          <NavigationProperty Name="Saves" Relationship="Self.FK_Save_Post" FromRole="Post" ToRole="Save" />
+        </EntityType>
+        <EntityType Name="Save">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Candidate_ID" Type="Int64" />
+          <Property Name="Post_ID" Type="Int64" />
+          <Property Name="Employer_ID" Type="Int64" />
+          <Property Name="DateSave" Type="DateTime" Precision="3" />
+          <NavigationProperty Name="Candidate" Relationship="Self.FK_Save_Candidate" FromRole="Save" ToRole="Candidate" />
+          <NavigationProperty Name="Employer" Relationship="Self.FK_Save_Employer" FromRole="Save" ToRole="Employer" />
+          <NavigationProperty Name="Post" Relationship="Self.FK_Save_Post" FromRole="Save" ToRole="Post" />
+        </EntityType>
+        <EntityType Name="Skill">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="MainSkill" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
+          <Property Name="Level" Type="Int32" />
+          <Property Name="Candidate_ID" Type="Int64" />
+          <NavigationProperty Name="Candidate" Relationship="Self.FK_Skill_Candidate" FromRole="Skill" ToRole="Candidate" />
+        </EntityType>
+        <EntityType Name="sysdiagram">
+          <Key>
+            <PropertyRef Name="diagram_id" />
+          </Key>
+          <Property Name="name" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="principal_id" Type="Int32" Nullable="false" />
+          <Property Name="diagram_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="version" Type="Int32" />
+          <Property Name="definition" Type="Binary" MaxLength="Max" FixedLength="false" />
+        </EntityType>
+        <EntityType Name="User">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Account" Type="String" MaxLength="100" FixedLength="true" Unicode="true" />
+          <Property Name="Password" Type="String" MaxLength="100" FixedLength="true" Unicode="true" />
+          <Property Name="Fullname" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
+          <Property Name="Type" Type="Int32" />
+          <Property Name="Status" Type="Boolean" />
+          <NavigationProperty Name="Candidates" Relationship="Self.FK_Candidate_User_ID" FromRole="User" ToRole="Candidate" />
+          <NavigationProperty Name="Employers" Relationship="Self.FK_Employer_User_ID" FromRole="User" ToRole="Employer" />
+        </EntityType>
+        <Association Name="FK_Candidate_User_ID">
+          <End Role="User" Type="Self.User" Multiplicity="0..1" />
+          <End Role="Candidate" Type="Self.Candidate" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="User">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Candidate">
+              <PropertyRef Name="User_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Education_Candidate">
+          <End Role="Candidate" Type="Self.Candidate" Multiplicity="0..1" />
+          <End Role="Education" Type="Self.Education" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Candidate">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Education">
+              <PropertyRef Name="Candidate_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Evaluate_Candidate">
+          <End Role="Candidate" Type="Self.Candidate" Multiplicity="0..1" />
+          <End Role="Evaluate" Type="Self.Evaluate" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Candidate">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Evaluate">
+              <PropertyRef Name="Candidate_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Experience_Candidate">
+          <End Role="Candidate" Type="Self.Candidate" Multiplicity="0..1" />
+          <End Role="Experience" Type="Self.Experience" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Candidate">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Experience">
+              <PropertyRef Name="Candidate_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Join_Candidate">
+          <End Role="Candidate" Type="Self.Candidate" Multiplicity="0..1" />
+          <End Role="Join" Type="Self.Join" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Candidate">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Join">
+              <PropertyRef Name="Candidate_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Save_Candidate">
+          <End Role="Candidate" Type="Self.Candidate" Multiplicity="0..1" />
+          <End Role="Save" Type="Self.Save" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Candidate">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Save">
+              <PropertyRef Name="Candidate_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Skill_Candidate">
+          <End Role="Candidate" Type="Self.Candidate" Multiplicity="0..1" />
+          <End Role="Skill" Type="Self.Skill" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Candidate">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Skill">
+              <PropertyRef Name="Candidate_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Post_Career">
+          <End Role="Career" Type="Self.Career" Multiplicity="0..1" />
+          <End Role="Post" Type="Self.Post" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Career">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Post">
+              <PropertyRef Name="Career_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Employer_User_ID">
+          <End Role="User" Type="Self.User" Multiplicity="0..1" />
+          <End Role="Employer" Type="Self.Employer" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="User">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Employer">
+              <PropertyRef Name="User_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Evaluate_Employer">
+          <End Role="Employer" Type="Self.Employer" Multiplicity="0..1" />
+          <End Role="Evaluate" Type="Self.Evaluate" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Employer">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Evaluate">
+              <PropertyRef Name="Employer_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Post_Employer">
+          <End Role="Employer" Type="Self.Employer" Multiplicity="0..1" />
+          <End Role="Post" Type="Self.Post" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Employer">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Post">
+              <PropertyRef Name="Employer_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Save_Employer">
+          <End Role="Employer" Type="Self.Employer" Multiplicity="0..1" />
+          <End Role="Save" Type="Self.Save" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Employer">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Save">
+              <PropertyRef Name="Employer_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Join_Post">
+          <End Role="Post" Type="Self.Post" Multiplicity="0..1" />
+          <End Role="Join" Type="Self.Join" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Post">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Join">
+              <PropertyRef Name="Post_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Save_Post">
+          <End Role="Post" Type="Self.Post" Multiplicity="0..1" />
+          <End Role="Save" Type="Self.Save" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Post">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Save">
+              <PropertyRef Name="Post_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="FindJobEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Candidates" EntityType="Self.Candidate" />
+          <EntitySet Name="Careers" EntityType="Self.Career" />
+          <EntitySet Name="Educations" EntityType="Self.Education" />
+          <EntitySet Name="Employers" EntityType="Self.Employer" />
+          <EntitySet Name="Evaluates" EntityType="Self.Evaluate" />
+          <EntitySet Name="Experiences" EntityType="Self.Experience" />
+          <EntitySet Name="Joins" EntityType="Self.Join" />
+          <EntitySet Name="Posts" EntityType="Self.Post" />
+          <EntitySet Name="Saves" EntityType="Self.Save" />
+          <EntitySet Name="Skills" EntityType="Self.Skill" />
+          <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagram" />
+          <EntitySet Name="Users" EntityType="Self.User" />
+          <AssociationSet Name="FK_Candidate_User_ID" Association="Self.FK_Candidate_User_ID">
+            <End Role="User" EntitySet="Users" />
+            <End Role="Candidate" EntitySet="Candidates" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Education_Candidate" Association="Self.FK_Education_Candidate">
+            <End Role="Candidate" EntitySet="Candidates" />
+            <End Role="Education" EntitySet="Educations" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Evaluate_Candidate" Association="Self.FK_Evaluate_Candidate">
+            <End Role="Candidate" EntitySet="Candidates" />
+            <End Role="Evaluate" EntitySet="Evaluates" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Experience_Candidate" Association="Self.FK_Experience_Candidate">
+            <End Role="Candidate" EntitySet="Candidates" />
+            <End Role="Experience" EntitySet="Experiences" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Join_Candidate" Association="Self.FK_Join_Candidate">
+            <End Role="Candidate" EntitySet="Candidates" />
+            <End Role="Join" EntitySet="Joins" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Save_Candidate" Association="Self.FK_Save_Candidate">
+            <End Role="Candidate" EntitySet="Candidates" />
+            <End Role="Save" EntitySet="Saves" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Skill_Candidate" Association="Self.FK_Skill_Candidate">
+            <End Role="Candidate" EntitySet="Candidates" />
+            <End Role="Skill" EntitySet="Skills" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Post_Career" Association="Self.FK_Post_Career">
+            <End Role="Career" EntitySet="Careers" />
+            <End Role="Post" EntitySet="Posts" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Employer_User_ID" Association="Self.FK_Employer_User_ID">
+            <End Role="User" EntitySet="Users" />
+            <End Role="Employer" EntitySet="Employers" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Evaluate_Employer" Association="Self.FK_Evaluate_Employer">
+            <End Role="Employer" EntitySet="Employers" />
+            <End Role="Evaluate" EntitySet="Evaluates" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Post_Employer" Association="Self.FK_Post_Employer">
+            <End Role="Employer" EntitySet="Employers" />
+            <End Role="Post" EntitySet="Posts" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Save_Employer" Association="Self.FK_Save_Employer">
+            <End Role="Employer" EntitySet="Employers" />
+            <End Role="Save" EntitySet="Saves" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Join_Post" Association="Self.FK_Join_Post">
+            <End Role="Post" EntitySet="Posts" />
+            <End Role="Join" EntitySet="Joins" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Save_Post" Association="Self.FK_Save_Post">
+            <End Role="Post" EntitySet="Posts" />
+            <End Role="Save" EntitySet="Saves" />
+          </AssociationSet>
+          <FunctionImport Name="sp_alterdiagram">
+            <Parameter Name="diagramname" Mode="In" Type="String" />
+            <Parameter Name="owner_id" Mode="In" Type="Int32" />
+            <Parameter Name="version" Mode="In" Type="Int32" />
+            <Parameter Name="definition" Mode="In" Type="Binary" />
+          </FunctionImport>
+          <FunctionImport Name="sp_creatediagram">
+            <Parameter Name="diagramname" Mode="In" Type="String" />
+            <Parameter Name="owner_id" Mode="In" Type="Int32" />
+            <Parameter Name="version" Mode="In" Type="Int32" />
+            <Parameter Name="definition" Mode="In" Type="Binary" />
+          </FunctionImport>
+          <FunctionImport Name="sp_dropdiagram">
+            <Parameter Name="diagramname" Mode="In" Type="String" />
+            <Parameter Name="owner_id" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="sp_helpdiagramdefinition" ReturnType="Collection(FindJobModel.sp_helpdiagramdefinition_Result)">
+            <Parameter Name="diagramname" Mode="In" Type="String" />
+            <Parameter Name="owner_id" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="sp_helpdiagrams" ReturnType="Collection(FindJobModel.sp_helpdiagrams_Result)">
+            <Parameter Name="diagramname" Mode="In" Type="String" />
+            <Parameter Name="owner_id" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="sp_renamediagram">
+            <Parameter Name="diagramname" Mode="In" Type="String" />
+            <Parameter Name="owner_id" Mode="In" Type="Int32" />
+            <Parameter Name="new_diagramname" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="sp_upgraddiagrams" />
+        </EntityContainer>
+        <ComplexType Name="sp_helpdiagramdefinition_Result">
+          <Property Type="Int32" Name="version" Nullable="true" />
+          <Property Type="Binary" Name="definition" Nullable="true" />
+        </ComplexType>
+        <ComplexType Name="sp_helpdiagrams_Result">
+          <Property Type="String" Name="Database" Nullable="true" MaxLength="128" />
+          <Property Type="String" Name="Name" Nullable="false" MaxLength="128" />
+          <Property Type="Int32" Name="ID" Nullable="false" />
+          <Property Type="String" Name="Owner" Nullable="true" MaxLength="128" />
+          <Property Type="Int32" Name="OwnerID" Nullable="false" />
+        </ComplexType>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="FindJobModelStoreContainer" CdmEntityContainer="FindJobEntities">
+          <EntitySetMapping Name="Candidates">
+            <EntityTypeMapping TypeName="FindJobModel.Candidate">
+              <MappingFragment StoreEntitySet="Candidate">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="Fullname" ColumnName="Fullname" />
+                <ScalarProperty Name="Birthday" ColumnName="Birthday" />
+                <ScalarProperty Name="Sex" ColumnName="Sex" />
+                <ScalarProperty Name="Image" ColumnName="Image" />
+                <ScalarProperty Name="Phone" ColumnName="Phone" />
+                <ScalarProperty Name="Address" ColumnName="Address" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
+                <ScalarProperty Name="Introduce" ColumnName="Introduce" />
+                <ScalarProperty Name="MainSkill" ColumnName="MainSkill" />
+                <ScalarProperty Name="Experience" ColumnName="Experience" />
+                <ScalarProperty Name="User_ID" ColumnName="User_ID" />
+                <ScalarProperty Name="Status" ColumnName="Status" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Careers">
+            <EntityTypeMapping TypeName="FindJobModel.Career">
+              <MappingFragment StoreEntitySet="Career">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="CareerName" ColumnName="CareerName" />
+                <ScalarProperty Name="Detail" ColumnName="Detail" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Educations">
+            <EntityTypeMapping TypeName="FindJobModel.Education">
+              <MappingFragment StoreEntitySet="Education">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="Education1" ColumnName="Education" />
+                <ScalarProperty Name="School" ColumnName="School" />
+                <ScalarProperty Name="FromDate" ColumnName="FromDate" />
+                <ScalarProperty Name="ToDate" ColumnName="ToDate" />
+                <ScalarProperty Name="Descriptions" ColumnName="Descriptions" />
+                <ScalarProperty Name="Candidate_ID" ColumnName="Candidate_ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Employers">
+            <EntityTypeMapping TypeName="FindJobModel.Employer">
+              <MappingFragment StoreEntitySet="Employer">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="Fullname" ColumnName="Fullname" />
+                <ScalarProperty Name="Place" ColumnName="Place" />
+                <ScalarProperty Name="Image" ColumnName="Image" />
+                <ScalarProperty Name="Descriptions" ColumnName="Descriptions" />
+                <ScalarProperty Name="CompanyName" ColumnName="CompanyName" />
+                <ScalarProperty Name="Address" ColumnName="Address" />
+                <ScalarProperty Name="Phone" ColumnName="Phone" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
+                <ScalarProperty Name="User_ID" ColumnName="User_ID" />
+                <ScalarProperty Name="Status" ColumnName="Status" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Evaluates">
+            <EntityTypeMapping TypeName="FindJobModel.Evaluate">
+              <MappingFragment StoreEntitySet="Evaluate">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="Candidate_ID" ColumnName="Candidate_ID" />
+                <ScalarProperty Name="Employer_ID" ColumnName="Employer_ID" />
+                <ScalarProperty Name="Rate" ColumnName="Rate" />
+                <ScalarProperty Name="Content" ColumnName="Content" />
+                <ScalarProperty Name="Descriptions" ColumnName="Descriptions" />
+                <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+                <ScalarProperty Name="Type" ColumnName="Type" />
+                <ScalarProperty Name="Status" ColumnName="Status" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Experiences">
+            <EntityTypeMapping TypeName="FindJobModel.Experience">
+              <MappingFragment StoreEntitySet="Experience">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="Position" ColumnName="Position" />
+                <ScalarProperty Name="Place" ColumnName="Place" />
+                <ScalarProperty Name="FromDate" ColumnName="FromDate" />
+                <ScalarProperty Name="ToDate" ColumnName="ToDate" />
+                <ScalarProperty Name="Descriptions" ColumnName="Descriptions" />
+                <ScalarProperty Name="Candidate_ID" ColumnName="Candidate_ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Joins">
+            <EntityTypeMapping TypeName="FindJobModel.Join">
+              <MappingFragment StoreEntitySet="Join">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="Post_ID" ColumnName="Post_ID" />
+                <ScalarProperty Name="Candidate_ID" ColumnName="Candidate_ID" />
+                <ScalarProperty Name="DateJoin" ColumnName="DateJoin" />
+                <ScalarProperty Name="Status" ColumnName="Status" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Posts">
+            <EntityTypeMapping TypeName="FindJobModel.Post">
+              <MappingFragment StoreEntitySet="Post">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="Title" ColumnName="Title" />
+                <ScalarProperty Name="Location" ColumnName="Location" />
+                <ScalarProperty Name="Career_ID" ColumnName="Career_ID" />
+                <ScalarProperty Name="Form" ColumnName="Form" />
+                <ScalarProperty Name="Dealine" ColumnName="Dealine" />
+                <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+                <ScalarProperty Name="Salary" ColumnName="Salary" />
+                <ScalarProperty Name="Descriptions" ColumnName="Descriptions" />
+                <ScalarProperty Name="Experience" ColumnName="Experience" />
+                <ScalarProperty Name="Employer_ID" ColumnName="Employer_ID" />
+                <ScalarProperty Name="Status" ColumnName="Status" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Saves">
+            <EntityTypeMapping TypeName="FindJobModel.Save">
+              <MappingFragment StoreEntitySet="Save">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="Candidate_ID" ColumnName="Candidate_ID" />
+                <ScalarProperty Name="Post_ID" ColumnName="Post_ID" />
+                <ScalarProperty Name="Employer_ID" ColumnName="Employer_ID" />
+                <ScalarProperty Name="DateSave" ColumnName="DateSave" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Skills">
+            <EntityTypeMapping TypeName="FindJobModel.Skill">
+              <MappingFragment StoreEntitySet="Skill">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="MainSkill" ColumnName="MainSkill" />
+                <ScalarProperty Name="Level" ColumnName="Level" />
+                <ScalarProperty Name="Candidate_ID" ColumnName="Candidate_ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="sysdiagrams">
+            <EntityTypeMapping TypeName="FindJobModel.sysdiagram">
+              <MappingFragment StoreEntitySet="sysdiagrams">
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="principal_id" ColumnName="principal_id" />
+                <ScalarProperty Name="diagram_id" ColumnName="diagram_id" />
+                <ScalarProperty Name="version" ColumnName="version" />
+                <ScalarProperty Name="definition" ColumnName="definition" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Users">
+            <EntityTypeMapping TypeName="FindJobModel.User">
+              <MappingFragment StoreEntitySet="User">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="Account" ColumnName="Account" />
+                <ScalarProperty Name="Password" ColumnName="Password" />
+                <ScalarProperty Name="Fullname" ColumnName="Fullname" />
+                <ScalarProperty Name="Type" ColumnName="Type" />
+                <ScalarProperty Name="Status" ColumnName="Status" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="sp_alterdiagram" FunctionName="FindJobModel.Store.sp_alterdiagram" />
+          <FunctionImportMapping FunctionImportName="sp_creatediagram" FunctionName="FindJobModel.Store.sp_creatediagram" />
+          <FunctionImportMapping FunctionImportName="sp_dropdiagram" FunctionName="FindJobModel.Store.sp_dropdiagram" />
+          <FunctionImportMapping FunctionImportName="sp_helpdiagramdefinition" FunctionName="FindJobModel.Store.sp_helpdiagramdefinition">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="FindJobModel.sp_helpdiagramdefinition_Result">
+                <ScalarProperty Name="version" ColumnName="version" />
+                <ScalarProperty Name="definition" ColumnName="definition" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="sp_helpdiagrams" FunctionName="FindJobModel.Store.sp_helpdiagrams">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="FindJobModel.sp_helpdiagrams_Result">
+                <ScalarProperty Name="Database" ColumnName="Database" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="Owner" ColumnName="Owner" />
+                <ScalarProperty Name="OwnerID" ColumnName="OwnerID" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="sp_renamediagram" FunctionName="FindJobModel.Store.sp_renamediagram" />
+          <FunctionImportMapping FunctionImportName="sp_upgraddiagrams" FunctionName="FindJobModel.Store.sp_upgraddiagrams" />
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

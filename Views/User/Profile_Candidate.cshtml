@@ -1,0 +1,224 @@
+﻿
+@{
+    ViewBag.Title = "Hồ sơ cá nhân";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    var candidate = ViewBag.profile as FindJob.Models.EF.Candidate;
+    var jodFeature = ViewBag.JobFeature as List<FindJob.Models.EF.Post>;
+    var listEvaluate = ViewBag.ListEvaluate as List<FindJob.Models.EF.Evaluate>;
+    var user = Session["user"] as FindJob.Models.EF.User;
+}
+@if (candidate == null)
+{
+    <section id="jobs" style="margin-top: 140px">
+        <div class="container">
+            <div class="row text-center">
+                <div class="col-sm-12">
+                    <h1>Hồ sơ cá nhân</h1>
+                    <h4>Bạn chưa nhập thông tin hồ sơ.</h4>
+                    <div class="jumbotron">
+                        <h3>Bạn chưa cập nhật hồ sơ?</h3>
+                        <p>Bạn vui lòng cập nhật thông tin hồ sơ tại đây</p>
+                        <p><a href="/User/Edit_Profile" class="btn btn-primary">Cập nhật hồ sơ</a></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+}
+else
+{
+
+    <section id="jobs" style="margin-top: 140px">
+        <div class="container">
+            <div class="row">
+                <div class="col-sm-8">
+                    <article>
+                        <h2>Thông tin cá nhân</h2>
+                        <div class="col-sm-4">
+                            <img src="~/Assets/images/candidate/@candidate.Image" style="width: 128px; height: 128px" alt="" class="pull-left" />
+                        </div>
+                        <div class="col-sm-8">
+                            <div class="sidebar-widget" id="widget-contact">
+                                <ul>
+                                    <li><i class="fa fa-user"></i><span> @candidate.Fullname</span></li>
+                                    <li><i class="fa fa-birthday-cake"></i><span>
+    @if (candidate.Birthday != null)
+    {@candidate.Birthday.Value.ToString("dd/MM/yyyy")}
+                                </span></li>
+                                    <li><i class="fa fa-map-marker"></i><span>@candidate.Address</span></li>
+                                    <li><i class="fa fa-phone"></i><span>@candidate.Phone</span></li>
+                                    <li><i class="fa fa-envelope"></i><span>@candidate.Email</span></li>
+                                </ul>
+                                <div id="skills">
+
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-12">
+                            <h3>Giới thiệu</h3>
+                            @Html.Raw(candidate.Introduce)
+                        </div>
+                        <div class="col-sm-12">
+                            <h3>Kỹ năng, kinh nghiệm</h3>
+                            <div class="row work-experience">
+                                <div class="col-sm-1">
+                                    <i class="fa fa-check"></i>
+                                </div>
+                                <div class="col-sm-10">
+                                    <h4>@candidate.MainSkill - kinh nghiệm @candidate.Experience năm</h4>
+                                </div>
+                            </div>
+
+                        </div>
+
+
+                    </article>
+                    <!-- COMMENTS START -->
+
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <h2>@listEvaluate.Count Đánh giá</h2>
+                            <ul class="media-list">
+                                @foreach (var item in listEvaluate)
+                                {
+                                    <li class="media">
+                                        <a class="pull-left media-photo" href="#"><img style="height:60px" class="media-object img-responsive img-circle" src="~/Assets/images/employer/@item.Employer.Image" alt="" /></a>
+                                        <div class="media-body">
+                                            <p class="media-heading">
+                                                <a href="#">@item.Employer.Fullname, @item.CreatedDate.Value.ToString("dd/MM/yyy") lúc @item.CreatedDate.Value.ToString("hh:mm tt"):</a>
+                                                <a href="#" class="pull-right">
+                                                    <i class="fa fa-star"></i> &nbsp; Điểm: <span style="color: red">@item.Rate</span>
+                                                </a>
+                                            </p>
+                                            <p>
+                                                @item.Descriptions
+                                            </p>
+
+                                        </div>
+                                    </li>
+                                }
+
+
+                            </ul>
+                        </div>
+                    </div>
+
+                    <!-- COMMENTS END -->
+
+                    <hr>
+
+                    <!-- COMMENT FORM START -->
+                    @if (user != null && user.Type == 2)
+                    {
+                        <h2>Đánh giá của bạn</h2>
+                        <form role="form">
+                            <div class="row" data-scroll-reveal>
+                                <div class="form-group col-sm-6">
+                                    <input type="number" min="5" max="10" class="form-control" id="Rate" placeholder="Điểm đánh giá của bạn">
+                                </div>
+                            </div>
+                            <div class="row" data-scroll-reveal>
+                                <div class="form-group col-sm-12">
+                                    <textarea class="form-control" id="Descriptions" placeholder="Nhập đánh giá của bạn" rows="5"></textarea>
+                                </div>
+                            </div>
+                            <div class="row" data-scroll-reveal>
+                                <div class="form-group col-sm-12">
+                                    <button type="button" id="btnEvaluate" data-candidateid="@candidate.ID" class="btn btn-primary">Đánh giá</button>
+                                </div>
+                            </div>
+                        </form>
+                    }
+
+
+                    <!-- COMMENTS FORM END -->
+                </div>
+                <div class="col-sm-4" id="sidebar">
+                    <h2>Việc làm nổi bật</h2>
+                    @foreach (var item in jodFeature)
+                    {
+                        var url = "/Post/Detail/" + item.ID;
+                        <!-- Job offer 1 -->
+                        <a href="@url">
+                            <div class="featured-job">
+                                <div class="col-sm-3">
+                                    <img src="~/Assets/images/employer/@item.Employer.Image" height="60px" alt="" class="img-circle">
+                                </div>
+                                <div class="col-sm-9 title">
+                                    <h5>@item.Title</h5>
+                                    <p>@item.Career.CareerName</p>
+                                </div>
+                                <div class="col-sm-12 data">
+                                    <span class="city"><i class="fa fa-map-marker"></i>@item.Location</span>
+                                    <span class="type full-time"><i class="fa fa-clock-o"></i>@item.Form</span>
+                                    <span class="sallary"><i class="fa fa-dollar"></i>@item.Salary.Value.ToString("N0") đ</span>
+                                </div>
+                                <div class="col-sm-12 description" style="height: 140px; overflow: hidden">
+                                    @Html.Raw(item.Descriptions);
+                                </div>
+                            </div>
+                        </a>
+                    }
+                </div>
+            </div>
+        </div>
+    </section>
+}
+
+
+
+@section jsSection{
+
+    <script>
+
+        $(document).ready(function () {
+
+            $('#btnEvaluate').off('click').on('click', function () {
+
+            var Candidate_ID = $(this).data('candidateid');
+            var Employer_ID =@(user != null && user.Employers.FirstOrDefault(x => x.User_ID == user.ID) != null ? user.Employers.FirstOrDefault(x => x.User_ID == user.ID).ID : 0);
+            var Rate = $('#Rate').val();
+            var Descriptions = $('#Descriptions').val();
+
+                var json_eval = [];
+                json_eval.push({
+                    Candidate_ID: Candidate_ID,
+                    Employer_ID: Employer_ID,
+                    Rate: Rate,
+                    Descriptions: Descriptions
+                });
+
+                console.log(json_eval);
+            $.ajax({
+                url: '/User/addEvaluate',
+                data: { json_eval: JSON.stringify(json_eval) },
+                type: 'POST',
+                dataType: 'json',
+                success: function (res) {
+                    if (res.status == true) {
+                        PNotify.success({
+                            title: 'THÔNG BÁO!!',
+                            text: 'Đánh giá người ứng tuyển thành công.'
+                        });
+                         setTimeout(function () {
+                                 window.location.href = "/User/Profile_Candidate/" + @candidate.User_ID;
+                            }, 5000);
+
+                    }
+                }
+            });
+
+            });
+
+
+
+        });
+
+    </script>
+
+}
+
+
+
+
+

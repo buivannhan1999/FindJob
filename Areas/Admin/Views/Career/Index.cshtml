@@ -1,0 +1,236 @@
+﻿
+@{
+    ViewBag.Title = "Ngành tuyển dụng";
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+    int dem = 1;
+}
+@model PagedList.IPagedList<FindJob.Models.EF.Career>
+@using PagedList.Mvc
+
+
+
+<div id="page-wrapper">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-lg-12">
+                <h1 class="page-header">Quản lý ngành tuyển dụng</h1>
+            </div>
+            <!-- /.col-lg-12 -->
+        </div>
+        <div class="row">
+            @if (TempData["add_success"] != null)
+            {
+                <div class="alert alert-success text-center text-uppercase" id="AlertBox">
+                    @TempData["add_success"]
+                </div>
+            }
+        </div>
+        <div class="row">
+            <div class="col-md-4" style="margin-bottom: 10px">
+                <button class="btn btn-lg btn-primary" data-toggle="modal" data-target="#addCareer">Thêm mới </button>
+            </div>
+        </div>
+        <!-- Modal -->
+        <div class="modal fade" id="addCareer" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Thêm mới ngành tuyển dụng</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        @using (Html.BeginForm("addCareer", "Career", FormMethod.Post, new { enctype = "multipart/form-data" }))
+                        {
+                            <div class="form-group">
+                                <label for="recipient-name" class="col-form-label">Tên ngành tuyển dụng:</label>
+                                <input type="text" name="CareerName" class="form-control">
+                            </div>
+                            <div class="form-group">
+                                <button type="submit" class="btn btn-primary btn-lg">Thêm mới</button>
+                            </div>
+                        }
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Đóng</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- /.row -->
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        ngành tuyển dụng
+                    </div>
+                    <!-- /.panel-heading -->
+                    <div class="panel-body">
+                        <div class="table-responsive">
+                            <table class="table table-striped">
+                                <thead>
+                                    <tr>
+                                        <th>#</th>
+                                        <th class="text-center">Tên ngành tuyển dụng</th>
+                                        <th></th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach (var item in Model)
+                                    {
+                                        <tr>
+                                            <td>@dem</td>
+                                            <td class="text-center">@item.CareerName</td>
+                                            <td>
+                                                <button class="btn btn-default btnEdit" data-id="@item.ID" title="Sửa ngành tuyển dụng"><i class="fa fa-edit"></i></button>
+                                                <button class="btn btn-danger btnDelete" data-id="@item.ID" title="Xóa ngành tuyển dụng"><i class="fa fa-remove"></i></button>
+                                            </td>
+                                        </tr>
+                                        dem++;
+                                    }
+
+                                </tbody>
+                            </table>
+                            Trang @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) / @Model.PageCount
+                            @Html.PagedListPager(Model, page => Url.Action("Index", new { page, pageSize = Model.PageSize }))
+                        </div>
+                        <!-- /.table-responsive -->
+                    </div>
+                    <!-- /.panel-body -->
+                </div>
+                <!-- /.panel -->
+            </div>
+
+        </div>
+
+    </div>
+    <!-- /.container-fluid -->
+</div>
+
+<!-- Modal -->
+<div class="modal fade editCareer" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Sửa ngành tuyển dụng</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                @using (Html.BeginForm("editCareer", "Career", FormMethod.Post, new { enctype = "multipart/form-data" }))
+                {
+                    <input type="hidden" name="ID" id="ID" />
+                    <div class="form-group">
+                        <label for="recipient-name" class="col-form-label">Tên ngành tuyển dụng:</label>
+                        <input type="text" name="CareerName" id="CareerName" class="form-control">
+                    </div>
+
+                    <div class="form-group">
+                        <button type="submit" class="btn btn-primary">Sửa</button>
+                    </div>
+                }
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Đóng</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section jsAdmin{
+
+    <script type="text/javascript">
+        $(function () {
+            //nếu không có thao tác gì thì ẩn đi
+            $('#AlertBox').removeClass('hide');
+
+            //Sau khi hiển thị lên thì delay 1s và cuộn lên trên sử dụng slideup
+            $('#AlertBox').delay(4000).slideUp(500);
+
+
+            $('.btnDelete').off('click').on('click', function () {
+
+                const notice = PNotify.notice({
+                    title: 'Thông báo',
+                    text: 'Bạn thật sự muốn xóa?',
+                    icon: 'fa fa-question-circle',
+                    width: '360px',
+                    minHeight: '110px',
+                    hide: false,
+                    closer: false,
+                    sticker: false,
+                    destroy: true,
+                    stack: new PNotify.Stack({
+                        dir1: 'down',
+                        modal: true,
+                        firstpos1: 25,
+                        overlayClose: false
+                    }),
+                    modules: new Map([
+                        ...PNotify.defaultModules,
+                        [PNotifyConfirm, {
+                            confirm: true
+                        }]
+                    ])
+                });
+
+                notice.on('pnotify:confirm', () =>
+                     $.ajax({
+                        data: { ID: $(this).data('id') },
+                        url: '/Admin/Career/Delete',
+                        dataType: 'Json',
+                        type: 'POST',
+                        success: function (res) {
+                            if (res.status == true) {
+                                PNotify.success({
+                                    title: 'THÔNG BÁO!!',
+                                    text: 'Xóa ngành tuyển dụng thành công.'
+                                });
+
+                                 setTimeout(function () {
+                                window.location.href = "/Admin/Career/Index";
+                            }, 5000);
+                            } else {
+                                PNotify.error({
+                                    title: 'THÔNG BÁO!!',
+                                    text: 'Xóa ngành tuyển dụng KHÔNG thành công.'
+                                });
+                            }
+                        }
+                    })
+
+                );
+                //notice.on('pnotify:cancel', () => alert('Oh ok. Chicken, I see.'));
+
+
+
+
+            });
+
+            $('.btnEdit').click(function(event) {
+                $('.editCareer').modal('show');
+                //alert($(this).data('id'));
+                var ID = $(this).data('id');
+                $.ajax({
+                        url: "/Admin/Career/GetCareerByID/" + ID,
+                        type: 'GET',
+                        dataType: 'json',
+                        contentType: "application/json; charset=utf-8",
+                        success: function (res) {
+                            $('#CareerName').val(res.CareerName);
+                            $('#ID').val(res.ID);
+                        }
+                    });
+            });
+
+        });
+    </script>
+
+}
+
+
+
+

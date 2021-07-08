@@ -1,0 +1,211 @@
+﻿
+@{
+    var post = ViewBag.post as FindJob.Models.EF.Post;
+    ViewBag.Title = post.Title;
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    var employer = ViewBag.Employer as FindJob.Models.EF.Employer;
+    var user = Session["user"] as FindJob.Models.EF.User;
+    var candi = ViewBag.Candidate as List<FindJob.Models.EF.Candidate>;
+}
+
+<section id="title" style="margin-top: 50px">
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-12 text-center">
+                <h1>@post.Title</h1>
+                <h4>
+                    <span><i class="fa fa-map-marker"></i>@post.Location</span>
+                    <span><i class="fa fa-clock-o"></i>@post.Form</span>
+                    <span><i class="fa fa-dollar"></i>@post.Salary.Value.ToString("N0") đ</span>
+                </h4>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ============ TITLE END ============ -->
+<!-- ============ CONTENT START ============ -->
+
+<section id="jobs">
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-8">
+                <article>
+                    @Html.Raw(post.Descriptions)
+                    @if (user != null && user.Type == 1 && candi.FirstOrDefault(x => x.User_ID == user.ID) != null)
+                    {
+                        <p>
+                            <a href="javascript:void(0)" id="btnSave" data-candidateid="@(user.Candidates.FirstOrDefault(x => x.User_ID == user.ID) != null ? user.Candidates.FirstOrDefault(x => x.User_ID == user.ID).ID : 0)" class="btn btn-primary btn-lg">Lưu công việc</a> &nbsp;
+                            <a href="javascript:void(0)" id="btnApply" data-candidateid="@(user.Candidates.FirstOrDefault(x => x.User_ID == user.ID) != null ? user.Candidates.FirstOrDefault(x => x.User_ID == user.ID).ID : 0)" class="btn btn-default btn-lg">Apply ngay</a>
+                        </p>
+                    }
+                    else if (user == null)
+                    {
+                        <p>
+                            Bạn vui lòng đăng nhập để Apply công việc này:
+                            <a href="/User/Login" class="btn btn-primary btn-lg">Đăng nhập ngay</a>
+                        </p>
+                    }
+                    @*else if (candi.FirstOrDefault(x => x.User_ID == user.ID) == null)
+                    {
+                        <p>
+                            Bạn vui lòng cập nhật hồ sơ ứng viên để Apply công việc này:
+
+                        </p>
+                        <a href="/User/Edit_Profile" class="btn btn-primary btn-lg">Cập nhật ngay</a>
+                    }*@
+                
+
+                </article>
+            </div>
+            <div class="col-sm-4" id="sidebar">
+                <div class="sidebar-widget" id="share">
+                    <h2>Chia sẻ tin</h2>
+                    <ul>
+                        <li><a href="#"><i class="fa fa-facebook"></i></a></li>
+                        <li><a href="#"><i class="fa fa-twitter"></i></a></li>
+                        <li><a href="#"><i class="fa fa-google-plus"></i></a></li>
+                        <li>
+                            <a href="#"><i class="fa fa-linkedin"></i></a>
+                        </li>
+                    </ul>
+                </div>
+                <hr>
+                <div class="sidebar-widget" id="company">
+                    <h2>Về đơn vị tuyển dụng</h2>
+                    <p><img src="~/Assets/images/employer/@employer.Image" alt="" class="img-responsive"></p>
+                    <p>
+                        @Html.Raw(employer.Descriptions)
+                    </p>
+                    @if (user != null && user.Type == 1 && candi.FirstOrDefault(x => x.User_ID == user.ID) != null)
+                    {
+                        <p><a href="javascript:void(0)" id="SaveEmployer" data-candidateid="@(user.Candidates.FirstOrDefault(x => x.User_ID == user.ID) != null ? user.Candidates.FirstOrDefault(x => x.User_ID == user.ID).ID : 0)" class="btn btn-info">Lưu nhà tuyển dụng</a></p>
+                    }
+                    <p><a href="/Employer/Index/@employer.User_ID" class="btn btn-primary">Xem thêm</a></p>
+                </div>
+                <hr>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+
+@section jsSection{
+
+    <script>
+
+        $(document).ready(function () {
+
+            $('#btnApply').off('click').on('click', function () {
+                if ($(this).data("candidateid") == 0) {
+                    PNotify.error({
+                                title: 'THÔNG BÁO!!',
+                                text: 'Bạn chưa cập nhật thông tin cá nhân.'
+                            });
+                            setTimeout(function () {
+                                window.location.href = "/User/Edit_Profile";
+                            }, 3000);
+                }
+                console.log(@post.ID);
+                console.log($(this).data("candidateid"));
+                $.ajax({
+                    data: {
+                        post_id: @post.ID,
+                        candidate_id: $(this).data("candidateid")
+                    },
+                    url: '/Post/JoinJob',
+                    dataType: 'Json',
+                    type: 'POST',
+                    success: function (res) {
+                        if (res.status == true) {
+
+                            PNotify.success({
+                                title: 'THÔNG BÁO!!',
+                                text: 'Bạn Apply công việc này thành công.'
+                            });
+                            setTimeout(function () {
+                                window.location.href = "/Post/Detail/" + @post.ID;
+                            }, 5000);
+
+
+                        } else {
+                             PNotify.error({
+                                title: 'THÔNG BÁO!!',
+                                text: 'Bạn đã Apply công việc này.'
+                            });
+                        }
+                    }
+                });
+
+            });
+
+            $('#btnSave').off('click').on('click', function () {
+
+                $.ajax({
+                    data: {
+                        post_id: @post.ID,
+                        candidate_id: $(this).data("candidateid")
+                    },
+                    url: '/Post/SaveJob',
+                    dataType: 'Json',
+                    type: 'POST',
+                    success: function (res) {
+                        if (res.status == true) {
+
+                            PNotify.success({
+                                title: 'THÔNG BÁO!!',
+                                text: 'Lưu công việc thành công.'
+                            });
+                            setTimeout(function () {
+                                window.location.href = "/Post/Detail/" + @post.ID;
+                            }, 5000);
+
+                        } else {
+                             PNotify.error({
+                                title: 'THÔNG BÁO!!',
+                                text: 'Bạn đã lưu công việc này.'
+                            });
+                        }
+                    }
+                });
+
+            });
+
+            $('#SaveEmployer').off('click').on('click', function () {
+
+                $.ajax({
+                    data: {
+                        employer_id: @employer.ID,
+                        candidate_id: $(this).data("candidateid")
+                    },
+                    url: '/Post/SaveEmployer',
+                    dataType: 'Json',
+                    type: 'POST',
+                    success: function (res) {
+                        if (res.status == true) {
+
+                            PNotify.success({
+                                title: 'THÔNG BÁO!!',
+                                text: 'Lưu nhà tuyển dụng thành công.'
+                            });
+                             setTimeout(function () {
+                                window.location.href = "/Post/Detail/" + @post.ID;
+                            }, 5000);
+                        } else {
+                             PNotify.error({
+                                title: 'THÔNG BÁO!!',
+                                text: 'Bạn đã lưu nhà tuyển dụng này.'
+                            });
+                        }
+                    }
+                });
+
+            });
+
+        });
+
+    </script>
+
+}
+

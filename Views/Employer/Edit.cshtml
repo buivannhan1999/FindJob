@@ -1,0 +1,197 @@
+﻿@{
+    ViewBag.Title = "Chỉnh sửa hồ sơ";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    var user = Session["user"] as FindJob.Models.EF.User;
+    var employ = ViewBag.Employer as FindJob.Models.EF.Employer;
+}
+
+@if (employ != null)
+{
+    <section id="jobs" style="margin-top: 140px">
+        <div class="container">
+            @using (Html.BeginForm("Edit_Employer", "Employer", FormMethod.Post, new { enctype = "multipart/form-data" , id = "frmValidate"}))
+            {
+                <input type="hidden" name="User_ID" value="@user.ID" />
+                <input type="hidden" name="ID" value="@employ.ID" />
+                <div class="row">
+                    <h2 class="text-center">Cập nhật thông tin nhà tuyển dụng</h2>
+                    <div class="col-sm-6">
+                        <div class="form-group" id="job-email-group">
+                            <label for="job-email">Họ và tên</label>
+                            <input type="text" class="form-control" value="@employ.Fullname" name="Fullname" id="job-email">
+                        </div>
+                        <div class="form-group" id="job-title-group">
+                            <label for="job-title">Công ty tuyển dụng</label>
+                            <input type="text" class="form-control" name="CompanyName" value="@employ.CompanyName" id="job-title">
+                        </div>
+                        <div class="form-group" id="job-location-group">
+                            <label for="job-location">Số điện thoại</label>
+                            <input type="text" class="form-control" name="Phone" value="@employ.Phone" id="job-title">
+                        </div>
+                        <div class="form-group wysiwyg" id="company-description-group">
+                            <label>Giới thiệu nhà tuyển dụng</label>
+                            <textarea rows="10" id="Descriptions" name="Descriptions">@employ.Descriptions</textarea>
+                        </div>
+                    </div>
+                    <div class="col-sm-6">
+                        <div class="form-group" id="job-email-group">
+                            <label for="job-email">Địa chỉ</label>
+                            <input type="text" class="form-control" name="Address" value="@employ.Address" id="job-email">
+                        </div>
+                        <div class="form-group" id="job-email-group">
+                            <label for="job-email">Địa điểm làm việc</label>
+                            <input type="text" class="form-control" name="Place" value="@employ.Place" id="job-email">
+                        </div>
+                        <div class="form-group" id="job-email-group">
+                            <label for="job-email">Email</label>
+                            <input type="text" class="form-control" name="Email" id="job-email" value="@employ.Email.Trim()">
+                        </div>
+                        <div class="form-group" id="company-logo-group">
+                            <label for="company-logo">Ảnh đại diện</label>
+                            <label for="file-upload" class="custom-file-upload">
+                                <i class="fa fa-cloud-upload"></i> @employ.Image
+                            </label>
+                            <input id="file-upload" name="Image" type="file" style="display:none;" accept="image/*">
+                        </div>
+                    </div>
+                </div>
+                <div class="row text-center">
+                    <p>&nbsp;</p>
+                    <button type="submit" href="#" class="btn btn-primary btn-lg">Chỉnh sửa hồ sơ </button>
+                </div>
+            }
+
+        </div>
+    </section>
+}
+else
+{
+    <section id="jobs" style="margin-top: 140px">
+        <div class="container">
+            @using (Html.BeginForm("Edit_Employer", "Employer", FormMethod.Post, new { enctype = "multipart/form-data" , id = "frmValidate"}))
+            {
+                <input type="hidden" name="User_ID" value="@user.ID" />
+                <div class="row">
+                    <h2 class="text-center">Thông tin nhà tuyển dụng</h2>
+                    <div class="col-sm-6">
+                        <div class="form-group" id="job-email-group">
+                            <label for="job-email">Họ và tên</label>
+                            <input type="text" class="form-control"  name="Fullname" id="job-email">
+                        </div>
+                        <div class="form-group" id="job-title-group">
+                            <label for="job-title">Công ty tuyển dụng</label>
+                            <input type="text" class="form-control" name="CompanyName" id="job-title">
+                        </div>
+                        <div class="form-group" id="job-location-group">
+                            <label for="job-location">Số điện thoại</label>
+                            <input type="text" class="form-control" name="Phone" id="job-title">
+                        </div>
+                        <div class="form-group wysiwyg" id="company-description-group">
+                            <label>Giới thiệu nhà tuyển dụng</label>
+                            <textarea rows="10" id="Descriptions" name="Descriptions"></textarea>
+                        </div>
+                    </div>
+                    <div class="col-sm-6">
+                        <div class="form-group" id="job-email-group">
+                            <label for="job-email">Địa chỉ</label>
+                            <input type="text" class="form-control" name="Address" id="job-email">
+                        </div>
+                        <div class="form-group" id="job-email-group">
+                            <label for="job-email">Địa điểm làm việc</label>
+                            <input type="text" class="form-control" name="Place"id="job-email">
+                        </div>
+                        <div class="form-group" id="job-email-group">
+                            <label for="job-email">Email</label>
+                            <input type="text" class="form-control" name="Email" id="job-email">
+                        </div>
+                        <div class="form-group" id="company-logo-group">
+                            <label for="company-logo">Ảnh đại diện</label>
+                            <input  name="Image" type="file" accept="image/*">
+                        </div>
+                    </div>
+                </div>
+                <div class="row text-center">
+                    <p>&nbsp;</p>
+                    <button type="submit" href="#" class="btn btn-primary btn-lg">Chỉnh sửa hồ sơ </button>
+                </div>
+            }
+
+        </div>
+    </section>
+}
+
+
+
+@section jsSection{
+
+    <script>
+
+        $(document).ready(function () {
+            CKEDITOR.replace('Descriptions');
+
+             $(".datepicker").datepicker({
+                format: "dd-mm-yyyy"
+            });
+
+            $('#file-upload').change(function () {
+              var i = $(this).prev('label').clone();
+              var file = '<i class="fa fa-cloud-upload"></i>' + $('#file-upload')[0].files[0].name;
+              $(this).prev('label').empty();
+              $(this).prev('label').append(file);
+            });
+
+
+            jQuery.validator.addMethod("phonenu", function (value, element) {
+                if (/^(09[0-9]|07[0|6|7|8|9]|03[2-9]|08[1-5])+([0-9]{7})\b/g.test(value)) {
+                    return true;
+                } else {
+                    return false;
+                };
+            }, "Invalid phone number");
+
+            jQuery.validator.addMethod("email_regex", function (value, element) {
+                if (/^[a-z][a-z0-9_\.]{5,32}@@[a-z0-9]{2,}(\.[a-z0-9]{2,4}){1,2}$/g.test(value)) {
+                    return true;
+                } else {
+                    return false;
+                };
+            }, "Invalid email");
+            //Khi bàn phím được nhấn và thả ra thì sẽ chạy phương thức này
+            $("#frmValidate").validate({
+                rules: {
+                    Fullname: "required",
+                    CompanyName: "required",
+                    Image: "required",
+                    Address: "required",
+                    Descriptions: "required",
+                    Email: {
+                        required: true,
+                        email_regex: true
+                    },
+                    Phone: {
+                        required: true,
+                        phonenu: true
+                    }
+                },
+                messages: {
+                    Fullname: "Vui lòng nhập họ và tên",
+                    CompanyName: "Vui lòng nhập tên công ty tuyển dụng",
+                    Image: "Vui lòng thêm ảnh",
+                    Address: "Vui lòng nhập địa chỉ",
+                    Descriptions: "Vui lòng nhập mô tả công ty tuyển dụng",
+                    Email: {
+                        required: "Vui lòng nhập email",
+                        email_regex: "Email không hợp lệ"
+                    },
+                    Phone: {
+                        required: "Vui lòng nhập số điện thoại",
+                        phonenu: "Số điện thoại không hợp lệ"
+                    }
+                }
+            });
+        });
+
+    </script>
+
+}
+
